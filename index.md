@@ -14,6 +14,4 @@ This site is generated from the `gh-pages` branch on this repository.
 
 - [Roadmap](/docs/roadmap.md)
 - [Cache schema](/docs/cache-schema.md)
-- [Build notes](/docs/build.md)
-- [Spec](/docs/paint-tool-spec.md)
-- [Plan](/docs/paint-tool-plan.md)
+- [Current progress](/docs/current.md)
