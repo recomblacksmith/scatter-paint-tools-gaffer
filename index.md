@@ -1,9 +1,15 @@
 ---
-title: "Scatter‑Paint Tools"
-layout: default
-description: "Documentation and resources for the Scatter‑Paint tools."
+title: "Scatter‑Paint Tools Docs"
 ---
 
-# Welcome to Scatter‑Paint Tools
+# Scatter‑Paint Tools Documentation
 
-This project provides a set of utilities for manipulating scatter paints. Enjoy exploring the docs and getting started with the tools. *More content will follow.*
+Welcome to the documentation for the Gaffer Scatter Paint plugin.
+
+This site is generated from the `gh-pages` branch on this repository.
+
+## Resources
+
+- [Roadmap](/docs/roadmap.md)
+- [Cache schema](/docs/cache-schema.md)
+- [Build notes](/docs/build.md)
