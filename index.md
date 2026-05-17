@@ -16,8 +16,5 @@ This site is generated from the `gh-pages` branch on this repository.
 - [Cache schema](/docs/cache-schema.md)
 - [Current progress](/docs/current.md)
 
-## 🎬 Watch the introduction
-<video controls width="640" style="max-width:100%;">
-  <source src="/assets/scatter-paint-tools-wip-720.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+## 🎬 Watch the video
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5Qni1gobubE?si=eSPoE_Yq8KglKe0v" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
