@@ -16,5 +16,9 @@ This site is generated from the `gh-pages` branch on this repository.
 - [Cache schema](/docs/cache-schema.md)
 - [Current progress](/docs/current.md)
 
-## 🎬 Watch the video
+## 🎬 Watch the videos!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lyFmMzGyIc8?si=7aMnx8-36Yoq0pkR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/5Qni1gobubE?si=eSPoE_Yq8KglKe0v" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
