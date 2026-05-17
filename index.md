@@ -2,6 +2,8 @@
 title: "Scatter‑Paint Tools Docs"
 ---
 
+![Scatter‑Paint Logo](/assets/logo/dev-logo.png)
+
 # Scatter‑Paint Tools Documentation
 
 Welcome to the documentation for the Gaffer Scatter Paint plugin.
