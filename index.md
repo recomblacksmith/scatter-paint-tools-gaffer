@@ -17,6 +17,4 @@ This site is generated from the `gh-pages` branch on this repository.
 - [Current progress](/docs/current.md)
 
 ## 🎬 Watch the introduction
-<video src="/assets/scatter-paint-tools-wip-720.mp4" controls width="640">
-  Your browser does not support the video tag.
-</video>
+<a href="/assets/scatter-paint-tools-wip-720.mp4" target="_blank" rel="noopener">Watch the video</a>
