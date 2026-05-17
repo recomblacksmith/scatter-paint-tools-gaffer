@@ -20,15 +20,3 @@
 | **16** | **Other miscellaneous spec items** | ⚠️ (Partial) | • Model‑'Patch' support (e.g. UV/barycentric data) is present, but there is no explicit “fallback to UV” contract beyond `restUV`. <br>• The laser‑based “diagnostics report” file path (`validationCategories`, `validationSummary`) is implemented, but the PDF or human‑readable report generation is not present in this repo. |
 | **Overall** |  | **Major core features are implemented.  Minor contractual differences (layers/selection plug types, pressure mapping, override UI, detailed randomisation) exist but do not severely break functional expectations.  The plugin aligns with the majority of the `paint‑tool‑plan.md` & `paint‑tool‑spec.md` content.** |
 
----
-
-### Recommendations for any remaining gaps
-| Gap | Suggested Fix | Urgency |
-|-----|----------------|---------|
-| **Layers/selectionSet pluggables** | Use a compound object or opaque plug as specified, instead of `StringVectorData`, to match the exact API contract. | Medium |
-| **Pressure mapping implementation** | Wire the `pressureDefaults.mappingMode` and `densityCurve/softnessCurve` into the point‑generation logic (in C++). | High |
-| **Randomisation enhancement** | Add sampling of `normalSpin`, `tangent‑frame` rotation, width jitter, and scale jitter in the point‑generation path. | High |
-| **Override UI** | Provide a dedicated action or UI toggle to set node‑level override where all content is replaced for a frame. | Low |
-| **Diagnostics report** | Implement a CSV/export of diagnostics to a file for readability. | Low |
-
-Feel free to let me know if you’d like me to apply any of the above changes or if you need further clarification on any section!
