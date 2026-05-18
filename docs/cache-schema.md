@@ -5,25 +5,31 @@
 ## Versioning
 
 - magic: `GSPAINT`
-- schema version: `1`
+- schema version: `2`
 - explicit plugin version fields in the cache header
 - incompatible schema changes require an explicit upgrade action
 
-## Top-level sections
+## Serialized layout
 
-1. `CacheHeader`
-2. `LockMetadata`
-3. `NodeMetadata`
-4. path dictionaries
-5. `LayerRecord[]`
-6. `StrokeRecord[]`
-7. `PointChunkRecord[]`
-8. `PointRecord[]`
-9. `SelectionSetRecord[]`
-10. `CurrentSelectionRecord`
-11. `DiagnosticsSnapshot`
-12. `UpgradeRecord[]`
-13. `PointBackupRecord[]` keyed by `pointId`
+The logical schema is represented by `CacheSchema`, but the current binary payload order is defined by `src/GafferScatterPaint/CacheFormat.cpp`.
+
+1. `CacheHeader` prefix
+2. persisted `schemaVersion`
+3. `NextIdsRecord`
+4. `NodeMetadata`
+5. `LockMetadata`
+6. scene path dictionaries (`scenePaths`, `instanceSourcePaths`)
+7. `LayerRecord[]`
+8. `StrokeRecord[]`
+9. `PointChunkRecord[]`
+10. `PointRecord[]`
+11. `SelectionSetRecord[]`
+12. `CurrentSelectionRecord`
+13. `DiagnosticsSnapshot`
+14. `UpgradeRecord[]`
+15. `PointBackupRecord[]` keyed by `pointId`
+
+The header prefix stores magic, endian marker, plugin version fields, `contentFlags`, and one persisted checksum field.
 
 ## Storage rules
 
@@ -41,11 +47,39 @@ The native C++ cache format implementation in `src/GafferScatterPaint/CacheForma
 
 The bigger runtime migration away from dict-based mutation is still future work. For now, authoritative cache IO is C++ while Python fallback keeps the same on-disk/on-blob schema for parity.
 
+## Integrity and checksum scope
+
+- `CacheHeader.checksum` is the only persisted cache-blob checksum.
+- That checksum covers the entire payload after the header prefix, not an individual section.
+- The checksum guarantee is therefore whole-payload integrity for load validation.
+- The lock blob uses the same pattern: one checksum over its payload.
+- Per-section checksum timings used in diagnostics are implementation details, not additional serialized integrity contracts.
+
+## Content flags
+
+- `contentFlags` is serialized in the cache header.
+- The compiled packer currently sets flags for:
+  - diagnostics content present
+  - upgrade records present
+  - external storage mode
+- Runtime helpers should treat `contentFlags` as header metadata, not as a replacement for decoding the payload.
+
 ## Persisted next ids
 
 - persisted `nextIds` are part of the serialized schema and track the next layer/stroke/point/selectionSet/chunk ids
 - the typed schema now models them explicitly instead of reconstructing them from max existing ids
 - Python and C++ compatibility paths both preserve them through roundtrip IO
+
+## Authored color fields
+
+- schema version `2` adds authored color persistence for scatter paint output parity
+- `NodeMetadata` persists `defaultColor`
+- `LayerRecord`, `StrokeRecord`, and `PointRecord` persist `colorEnabled` plus `color`
+- authored color precedence is `point > stroke > layer > node default`
+- `scatterColor` is always reconstructed from authored color during point expansion/output generation
+- `debugColor` is a runtime display plug on `AttachedPoints` and `StaticPoints`; it is not stored in the cache schema
+- when `debugColor` is off, `Cs` shows authored color
+- when `debugColor` is on, `Cs` shows resolve-state debug color while `scatterColor` remains authored color
 
 ## Identity rules
 
