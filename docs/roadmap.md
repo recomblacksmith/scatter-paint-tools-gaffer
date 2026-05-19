@@ -22,13 +22,16 @@ Completed:
 5. Compiled validation moved into `src/GafferScatterPaint/CacheValidation.cpp`.
 6. Persisted `nextIds` are now modeled explicitly in the typed schema.
 7. Compiled lock/time helper dependencies on Python blob helpers were removed.
+8. Regression coverage now pins down cache serialization parity for point backups, lock blobs, and embedded/external roundtrips.
+9. Authored color support now persists node/layer/stroke/point overrides in schema v2 and keeps compiled/Python output behavior aligned.
+10. Broader packaged-runtime regression coverage is green for `AttachmentRegressionTest`, `PaintPointsToolTest`, and `PaintedPointsCacheActionsTest`.
+11. Test compatibility shims now cover `cacheStoreSnapshot`, startup actions import, and UI startup degradation when the compiled tool is unavailable during bootstrap.
 
 Still in progress:
 
-1. Finish Python fallback parity so the compatibility path matches the C++ blob format exactly.
-2. Align Python fallback validation with native multi-chunk validation behavior.
-3. Add serialization-specific parity coverage for backups, lock blobs, and mixed-path roundtrips.
-4. Update docs/tests to reflect C++ cache authority instead of older Python-source-of-truth wording.
+1. Keep the Python fallback compatibility path byte-aligned with the C++ blob format.
+2. Continue replacing older scaffold/spec wording with current shipped behavior in remaining docs and demo notes.
+3. Reduce the remaining startup/test compatibility shims once compiled UI bootstrap is stable in all launch paths.
 
 Deferred until after parity is locked down:
 
@@ -40,5 +43,5 @@ Deferred until after parity is locked down:
 
 1. Cache parity and authority cleanup
 2. Cache-format and lock/validation regression coverage
-3. Remaining export/helper cleanup around compatibility paths
-4. Attachment and tool UX/performance follow-up work
+3. Attachment and tool UX follow-up work
+4. Remaining export/helper cleanup around compatibility paths
