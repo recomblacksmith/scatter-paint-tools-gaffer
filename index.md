@@ -4,7 +4,7 @@ title: Home
 permalink: /
 ---
 
-![Scatter Paint Tools Logo]({{ '/assets/logo/dev-logo.png' | relative_url }}){: w="320" h="320" }
+![Scatter Paint Tools Logo](/assets/logo/dev-logo.png){: w="320" h="320" }
 
 # Scatter Paint Tools for Gaffer
 
@@ -102,7 +102,7 @@ If you need the technical pages, they are still here:
 
 ## Videos
 
-{% assign wip_video = '/assets/scatter-paint-tools-wip-720.mp4' | relative_url %}
+{% assign wip_video = '/assets/scatter-paint-tools-wip-720.mp4' %}
 {% include embed/video.html src=wip_video title='Scatter Paint Tools work-in-progress' %}
 
 {% include embed/youtube.html id='R47paQI2cdY' %}
