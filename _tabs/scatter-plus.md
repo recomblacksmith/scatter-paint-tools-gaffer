@@ -6,17 +6,17 @@ order: 4
 
 # Gaffer Scatter Plus
 
-`gaffer_scatter_plus` is the support-surface scatter plugin in the toolset.
+Scatter Plus is the procedural scatter tool in the set.
 
-## Current Scope
+Use it when you want to spread instances across a support surface without painting them by hand.
 
-- support-geometry driven scatter generation
-- helper-point output at `<outputLocation>/points`
-- instanced prototype output at `<outputLocation>/instances/*`
-- image-driven distribution and luminance-based prototype selection
-- density and decimation from support primitive variables
-- support and decimation evaluation in `Object`, `World`, and `Reference` spaces
-- per-instance debug attributes for downstream inspection
+## What It Does
+
+- scatters points and instances across support geometry
+- can drive distribution from an image
+- can vary density from primitive variables already on the mesh
+- can output helper points as well as instanced prototypes
+- gives you different spaces for support and decimation evaluation
 
 ## Runtime Registration
 
@@ -24,16 +24,16 @@ order: 4
 - `/ScatterPlus/Demos/Image Scatter`
 - `/Tools/Scatter Plus/...`
 
-## Tests
+## What Is Already Covered
 
-Current coverage exercises:
+Current build coverage checks:
 
 - output branch creation
-- helper-point primvars
+- helper-point attributes
 - prototype assignment modes
-- image distribution
-- density primitive variables
+- image-based distribution
+- density controls
 - reference-space evaluation
 - decimation controls
 - collision modes
-- demo action wiring
+- demo setup wiring

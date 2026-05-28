@@ -6,27 +6,33 @@ order: 2
 
 # Releases
 
-The toolset is published as one combined release, not as separate plugin packages.
+This project ships as one toolset release.
+
+You do not need to download three separate plugins.
 
 ## Release Artifact
 
-Each release archives the combined payload as:
+Each release publishes this archive:
 
 ```text
 scatter-paint-tools-gaffer-toolset.tar.gz
 ```
 
-That archive contains the merged runtime payload from `dist/gaffer` with all three plugins inside.
+Inside it, you get one combined `dist/gaffer` payload containing:
+
+- Scatter Paint
+- Scatter Plus
+- PointCloud Plus
 
 ## Release Flow
 
-- `Linux Toolset Build` builds and smoke-tests the combined toolset
-- `Release Toolset` rebuilds on `main`, archives `dist/gaffer`, creates a timestamp tag, and publishes a GitHub release
-- current builder image: `d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0`
+- `Linux Toolset Build` checks that the full toolset still builds
+- `Release Toolset` rebuilds the toolset from `main`, packages it, and publishes a GitHub release
+- the current build image is `d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0`
 
 ## Builder Image Tags
 
-Available Docker tags:
+Available build image tags:
 
 - `d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0`
 - `d3smond/scatter-paint-tools-gaffer-build:latest`
@@ -40,10 +46,10 @@ docker pull d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0
 
 ## GitHub Releases
 
-- repository releases: <https://github.com/recomblacksmith/scatter-paint-tools-gaffer/releases>
+- GitHub releases: <https://github.com/recomblacksmith/scatter-paint-tools-gaffer/releases>
 - source repository: <https://github.com/recomblacksmith/scatter-paint-tools-gaffer>
-- Docker Hub builder image: <https://hub.docker.com/r/d3smond/scatter-paint-tools-gaffer-build>
+- Docker Hub build image: <https://hub.docker.com/r/d3smond/scatter-paint-tools-gaffer-build>
 
 ## Current Release Notes
 
-See the release post on this site for the current combined toolset release pipeline and artifact shape.
+See the release post on this site for the current packaging and publish flow.

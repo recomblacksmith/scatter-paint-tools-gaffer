@@ -6,18 +6,20 @@ order: 7
 
 # Cache Schema
 
-`GafferScatterPaint` uses a strict plugin-native cache schema shared by embedded and external storage modes.
+Scatter Paint saves its painted work in a structured cache format.
+
+Most artists do not need to think about the exact binary layout. This page exists for pipeline, debugging, and long-term compatibility notes.
 
 ## Versioning
 
 - magic: `GSPAINT`
 - schema version: `2`
 - explicit plugin version fields in the cache header
-- incompatible schema changes require an explicit upgrade action
+- any incompatible change needs an explicit upgrade step
 
 ## Serialized Layout
 
-The current binary payload order is defined by `src/GafferScatterPaint/CacheFormat.cpp`.
+The current binary payload order is defined in `src/GafferScatterPaint/CacheFormat.cpp`.
 
 1. `CacheHeader`
 2. persisted `schemaVersion`
@@ -39,8 +41,8 @@ The current binary payload order is defined by `src/GafferScatterPaint/CacheForm
 
 - C++ cache IO is authoritative
 - Python fallback remains byte-compatible with the same format
-- dict-shaped runtime/edit helpers are still part of the current implementation
-- partial cache rewrite optimization is not part of the current delivered contract
+- some runtime and edit helpers still pass through dictionary-shaped data internally
+- partial cache rewrite optimization is not part of the current shipped behavior
 - authored color persists in schema version `2`
 - `debugColor` is runtime-only and is not serialized
 
@@ -55,4 +57,4 @@ The current binary payload order is defined by `src/GafferScatterPaint/CacheForm
 
 - writes use session-aware lock metadata
 - diagnostics persist counts, failing targets, summary text, and validation categories
-- upgrades append history records instead of overwriting prior upgrade information
+- upgrade history is appended instead of overwriting older records

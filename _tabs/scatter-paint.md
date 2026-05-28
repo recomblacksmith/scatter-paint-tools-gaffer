@@ -6,37 +6,37 @@ order: 3
 
 # Gaffer Scatter Paint
 
-`gaffer_scatter_paint` is the authored scatter-paint workflow in this toolset.
+Scatter Paint is the hand-placed scatter tool in this set.
 
-## Shipped Surface
+Use it when you want an artist-driven result instead of fully procedural scatter.
 
-- `PaintedPoints`
-- `AttachedPoints`
-- `StaticPoints`
-- `PaintPointsTool`
+## What It Gives You
 
-## Current Verified Workflows
+- `PaintedPoints` to store painted scatter data
+- `AttachedPoints` to stick those points back onto geometry
+- `StaticPoints` to bake a final result
+- `PaintPointsTool` for interactive painting in the viewer
 
-- authored layers, strokes, selection sets, and cache-backed point records
-- cache validate, migrate, relink, upgrade, compact, export, and bake actions
-- authored color precedence `point > stroke > layer > node default`
-- `debugColor` display switching while keeping authored color in `scatterColor`
-- layer visibility, mute, solo, mode, and frame-range filtering
-- attachment diagnostics, `strictUnresolved`, `keepLastValidOutput`, fallback anchors, and per-instance resolve support
-- compiled and Python-fallback regression coverage for cache and attachment behavior
+## Good Uses For It
+
+- painting placement by hand on a surface
+- organizing work into layers and strokes
+- muting, soloing, or timing layers for shot work
+- baking a painted result into a simpler output node
+- exporting or validating the stored paint data when needed
 
 ## Runtime Registration
 
-After side-loading the combined payload, Gaffer registers:
+After the toolset is loaded, Gaffer adds:
 
-- `/Scatter/...` node menu entries for `PaintedPoints`, `AttachedPoints`, and `StaticPoints`
-- `/Tools/Scatter Paint/...` graph, validation, repair, and inspection actions
-- `/ScatterPaint/Demos/...`
-- `/ScatterPaint/Benchmark/...`
+- Scatter nodes in the node menu
+- Scatter Paint tools and utility actions in the top menus
+- demo setups you can use as starting points
+- benchmark scenes for testing heavier paint cases
 
 ## More Detail
 
-Use the other docs tabs for deeper scatter-paint internals:
+Use the other pages if you need more detail:
 
 - Build
 - Nodes

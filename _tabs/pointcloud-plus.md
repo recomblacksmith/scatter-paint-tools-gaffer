@@ -6,15 +6,17 @@ order: 5
 
 # Gaffer PointCloud Plus
 
-`gaffer_pointcloud_plus` is the point-cloud generation and republish plugin in the toolset.
+PointCloud Plus is the point-cloud utility tool in the set.
 
-## Current Scope
+Use it when you want to generate points from geometry, republish points cleanly, or remap point playback.
 
-- random surface point generation
-- primitive-center point generation
-- republish of an upstream `PointsPrimitive`
-- file-style playback remapping through `frame`, `frameOffset`, and `animationBehavior`
-- injecting point output at a chosen location while preserving the surrounding source scene
+## What It Does
+
+- creates random points on surfaces
+- creates one point per primitive center when that is the better fit
+- republishes incoming point clouds into a cleaner scene location
+- remaps playback timing for file-style point caches
+- keeps the rest of the source scene intact while adding the point output
 
 ## Runtime Registration
 
@@ -25,9 +27,9 @@ order: 5
 - `/PointCloudPlus/Demos/File Republish`
 - `/Tools/PointCloud Plus/...`
 
-## Tests
+## What Is Already Covered
 
-Current coverage exercises:
+Current build coverage checks:
 
 - geometry mode
 - primitive-center mode

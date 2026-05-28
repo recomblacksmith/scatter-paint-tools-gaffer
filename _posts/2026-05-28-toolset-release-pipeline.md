@@ -4,19 +4,21 @@ date: 2026-05-28 12:00:00 +0000
 categories: [Releases]
 tags: [gaffer, docker, github-actions]
 pin: true
-description: Current GitHub release flow for the combined Scatter Paint Tools for Gaffer toolset.
+description: How the combined Scatter Paint Tools for Gaffer release is packaged and published.
 ---
 
-The current release path publishes one combined toolset payload, not separate plugin archives.
+This project now ships as one combined toolset release.
+
+That means artists do not need to hunt for separate plugin downloads.
 
 ## What Gets Released
 
 - artifact name: `scatter-paint-tools-gaffer-toolset.tar.gz`
 - payload root: `dist/gaffer`
-- included plugins:
-  - `gaffer_scatter_paint`
-  - `gaffer_scatter_plus`
-  - `gaffer_pointcloud_plus`
+- included tools:
+  - Scatter Paint
+  - Scatter Plus
+  - PointCloud Plus
 
 ## Build Inputs
 
@@ -28,9 +30,9 @@ The current release path publishes one combined toolset payload, not separate pl
 
 The release workflow:
 
-1. rebuilds the combined toolset on `main`
+1. rebuilds the full toolset on `main`
 2. archives `dist/gaffer`
 3. creates a timestamp tag
 4. publishes a GitHub release
 
-This keeps docs, builder image, and release output aligned around one toolset contract.
+This keeps the docs, build image, and downloadable release aligned around one install path.

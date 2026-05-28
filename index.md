@@ -8,37 +8,42 @@ permalink: /
 
 # Scatter Paint Tools for Gaffer
 
-This site tracks the current Scatter Paint Tools for Gaffer toolset.
+This site is the artist-facing home for the Scatter Paint Tools for Gaffer toolset.
 
-It documents the Docker-first build flow, the combined toolset release payload, and the current shipped surface for:
+You can use these tools to paint scatter by hand, generate scatter from support surfaces, and build or republish point clouds inside Gaffer.
 
-- `gaffer_scatter_paint`
-- `gaffer_scatter_plus`
-- `gaffer_pointcloud_plus`
+This site explains:
+
+- what each tool is for
+- how to install the full toolset
+- what gets downloaded in a release
+- where to look for current status and limitations
 
 ## Quick Start
 
-Build the full toolset locally with Docker:
+If you just want the full toolset build, run:
 
 ```bash
 ./build-plugins.sh --plugin all --pull
 ```
 
-That flow:
+That command:
 
-- pulls or reuses `d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0`
-- downloads and verifies packaged Gaffer `1.6.18.0`
-- builds all three plugins
-- assembles one combined side-load payload under `dist/gaffer`
-- smoke-tests the combined toolset
+- uses the shared build image for this project
+- downloads the matching Gaffer package automatically
+- builds all three plugins together
+- creates one ready-to-load toolset in `dist/gaffer`
+- runs a quick validation pass before finishing
+
+You do not need to build each plugin by hand.
 
 ## Current Release Shape
 
-- one combined GitHub release per toolset build
-- one combined artifact: `scatter-paint-tools-gaffer-toolset.tar.gz`
-- one combined runtime payload inside `dist/gaffer`
+- each release contains all three tools together
+- the downloadable archive is `scatter-paint-tools-gaffer-toolset.tar.gz`
+- the runtime payload inside that archive lives under `dist/gaffer`
 
-Use the sidebar tabs for build instructions, releases, plugin pages, and deeper scatter-paint docs.
+Use the tabs in the sidebar to jump to build help, releases, and tool-specific pages.
 
 ## Videos
 

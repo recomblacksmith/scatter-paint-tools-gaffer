@@ -6,7 +6,9 @@ order: 9
 
 # Scatter Paint Stats
 
-Latest normalized timings from recent real paint/erase runs.
+These numbers are a rough performance snapshot from recent real paint and erase runs.
+
+This page is mostly for technical review. If you are just using the tool, the main takeaway is whether paint and erase stay responsive enough for shot work.
 
 Average point counts used for normalization:
 
@@ -25,7 +27,7 @@ Average point counts used for normalization:
 - `writeMs`: `2.35ms / 10k`
 - `writePackMs`: `0.26ms / 10k`
 
-Main read: erase work itself is reasonable; small-update writes are still dominated by embedded blob set overhead.
+Main takeaway: erase behavior is in a workable range, but very small updates still pay a noticeable write cost.
 
 ### Paint / Write
 
@@ -36,4 +38,4 @@ Main read: erase work itself is reasonable; small-update writes are still domina
 - `writeMs`: `3.62ms / 10k`
 - `writePackMs`: `3.59ms / 10k`
 
-Main read: large paint strokes are no longer bottlenecked by blob set overhead; write cost is mostly point packing and checksum work.
+Main takeaway: larger paint strokes are no longer dominated by the old blob-set bottleneck, but writing and packing the result still has a measurable cost.

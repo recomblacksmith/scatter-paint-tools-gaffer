@@ -6,29 +6,47 @@ order: 6
 
 # Scatter Paint Nodes
 
-The scatter-paint workflow centers on three nodes.
+Scatter Paint is built around three main nodes.
+
+You do not need to understand every internal detail to use them. The simple version is:
+
+- one node stores painted work
+- one node evaluates that work on geometry
+- one node bakes the result
 
 ## `PaintedPoints`
 
-Authoring node for:
+This is the authoring node.
+
+It is where your painted scatter data lives.
+
+It handles:
 
 - layers, strokes, point records, selection sets, diagnostics, upgrades, and backup data
 - tool-driven paint, erase, relax, reproject, and edit actions
 - cache actions such as validate, migrate, relink, upgrade, compact, export, and bake
-- authored color precedence `point > stroke > layer > node default`
+- color coming from point, stroke, layer, or node defaults
 
 ## `AttachedPoints`
 
-Solve/evaluation node for:
+This is the evaluation node.
+
+It takes painted data and puts it back onto scene geometry so you can preview, render, or export it.
+
+It handles:
 
 - resolving painted points back onto scene geometry
 - emitting evaluated output points at an output location
 - reporting resolved/unresolved counts, topology mismatches, failing targets, and solve status
-- applying fallback behavior such as `keepLastValidOutput`, `strictUnresolved`, and optional cross-mesh reprojection support
+- keeping useful fallback behavior when the source changes or partially breaks
 
 ## `StaticPoints`
 
-Frozen-output node for:
+This is the bake node.
+
+Use it when you want a lighter, frozen result.
+
+It supports:
 
 - authored bakes
 - evaluated bakes
@@ -41,7 +59,7 @@ Frozen-output node for:
 source scene -> PaintedPoints -> AttachedPoints -> preview/render/export
 ```
 
-Bake paths:
+Common bake paths:
 
 ```text
 PaintedPoints -> StaticPoints
