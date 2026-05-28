@@ -1,20 +1,42 @@
+<p align="center">
+  <img src="https://recomblacksmith.github.io/scatter-paint-tools-gaffer/assets/logo/dev-logo.png" alt="Scatter Paint Tools for Gaffer" width="320">
+</p>
+
 # Scatter Paint Tools for Gaffer
 
-Standalone source repository for side-loadable Gaffer plugins focused on authored scatter painting, scene scatter generation, and point-cloud workflows.
+Artist-friendly scatter painting and point tools for Gaffer.
+
+Scatter Paint Tools is a side-loadable Gaffer plugin set for artists and TDs who need better control over placed detail, procedural scatter, and point-cloud prep inside shot workflows.
+
+## Artist Documentation
+
+Read the user-facing install, release, and plugin docs here:
+
+<https://recomblacksmith.github.io/scatter-paint-tools-gaffer/>
+
+## What You Can Do
+
+- paint points by hand in the viewer
+- stick painted points back onto geometry
+- freeze painted results for downstream work
+- scatter points or instances procedurally from meshes, masks, and attributes
+- generate, clean up, and republish point clouds for layout, dressing, lighting, or FX handoff
 
 ## Plugins
 
 ### `gaffer_scatter_paint`
 
-Authored scatter-paint workflow for Gaffer with `PaintedPoints`, `AttachedPoints`, `StaticPoints`, a compiled `PaintPointsTool`, cache/export helpers, and demo/benchmark menus.
+Hand-placed scatter painting for art-directed placement. Use it for grass touch-up, rocks, leaves, bolts, debris, and other shot-specific detail that needs direct artist control.
+
+Includes `PaintedPoints`, `AttachedPoints`, `StaticPoints`, a compiled `PaintPointsTool`, cache/export helpers, and demo/benchmark menus.
 
 ### `gaffer_scatter_plus`
 
-Support-surface scatter plugin built around helper-point output, prototype instancing, image-driven distribution, and scene-scatter debug attributes.
+Procedural scatter across support surfaces. Use it for broader coverage passes, image-driven density, attribute masks, helper-point output, prototype instancing, and scene-scatter debug attributes.
 
 ### `gaffer_pointcloud_plus`
 
-Point-cloud generation and republish plugin for scene-driven `PointsPrimitive` output, including geometry, primitive-center, and file-style playback workflows.
+Point-cloud generation and republish tools for scene-driven `PointsPrimitive` output. Use it to turn geometry into points, clean up incoming point branches, or prep simple point-cache handoffs.
 
 ## Repository Layout
 
@@ -66,7 +88,7 @@ Examples:
 ./build-plugins.sh --build-image
 ```
 
-## Documentation
+## Developer Documentation
 
 - `gaffer_scatter_paint/README.md`
 - `gaffer_scatter_plus/README.md`
