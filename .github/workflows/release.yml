@@ -24,21 +24,39 @@ jobs:
               sh -lc "chown -R $(id -u):$(id -g) /workspace || true; rm -rf /workspace/dist"
           fi
       - uses: actions/checkout@v4
+      - name: Read release version
+        id: version
+        run: |
+          version="$(tr -d '[:space:]' < VERSION)"
+          if [ -z "$version" ]; then
+            echo "VERSION file is empty" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          echo "archive=scatter-paint-tools-gaffer-v${version}-linux-gaffer-1.6.18.0.tar.gz" >> "$GITHUB_OUTPUT"
+          echo "root=scatter-paint-tools-gaffer-v${version}-linux-gaffer-1.6.18.0" >> "$GITHUB_OUTPUT"
+      - name: Ensure release tag does not already exist
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Release tag ${{ steps.version.outputs.tag }} already exists" >&2
+            exit 1
+          fi
       - name: Build combined toolset
         env:
           IMAGE_NAME: d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0
         run: ./build-plugins.sh --plugin all --pull
-      - name: Archive toolset release
-        run: tar -czf scatter-paint-tools-gaffer-toolset.tar.gz -C dist gaffer
-      - name: Create release tag
-        id: tag
-        run: |
-          stamp="$(date -u +%Y%m%d%H%M%S)"
-          echo "tag=build-${stamp}" >> "$GITHUB_OUTPUT"
+      - name: Prepare user-facing release package
+        env:
+          GAFFER_VERSION: 1.6.18.0
+          TARGET_OS: linux
+        run: ./ci/package_release.sh
+      - name: Archive Linux release package
+        run: tar -czf "${{ steps.version.outputs.archive }}" -C dist/release "${{ steps.version.outputs.root }}"
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag.outputs.tag }}
-          name: ${{ steps.tag.outputs.tag }}
-          files: scatter-paint-tools-gaffer-toolset.tar.gz
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Scatter Paint Tools for Gaffer ${{ steps.version.outputs.tag }}
+          files: ${{ steps.version.outputs.archive }}
           generate_release_notes: true

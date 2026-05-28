@@ -48,7 +48,8 @@ Default behavior:
 Release behavior:
 
 - publishes one combined toolset release containing all three plugins together
-- archives `dist/gaffer` as `scatter-paint-tools-gaffer-toolset.tar.gz`
+- publishes a versioned Linux archive such as `scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0.tar.gz`
+- unpacks into a versioned folder with `how-to-setup.md` and per-plugin directories under `scatter-paint-tools-gaffer/`
 
 Typical side-loading uses:
 
