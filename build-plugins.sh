@@ -17,6 +17,21 @@ RUN_TESTS=0
 PULL_IMAGE=0
 BUILD_IMAGE=0
 
+cleanup_workspace() {
+  if ! command -v docker >/dev/null 2>&1; then
+    return 0
+  fi
+
+  docker run --rm \
+    -v "$ROOT_DIR":"$CONTAINER_WORKDIR" \
+    -w "$CONTAINER_WORKDIR" \
+    "$IMAGE_NAME" \
+    bash -lc "chown -R $(id -u):$(id -g) '$CONTAINER_WORKDIR' || true" \
+    >/dev/null 2>&1 || true
+}
+
+trap cleanup_workspace EXIT
+
 usage() {
   cat <<'EOF'
 Usage: ./build-plugins.sh [options]
@@ -88,6 +103,8 @@ fi
 if ! docker volume inspect "$DOCKER_VOLUME" >/dev/null 2>&1; then
   docker volume create "$DOCKER_VOLUME" >/dev/null
 fi
+
+rm -rf "$ROOT_DIR/dist"
 
 docker run --rm \
   -v "$ROOT_DIR":"$CONTAINER_WORKDIR" \

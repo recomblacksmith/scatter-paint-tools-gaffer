@@ -15,6 +15,12 @@ jobs:
       run:
         shell: bash
     steps:
+      - name: Prepare runner workspace
+        run: |
+          if [ -d "$GITHUB_WORKSPACE" ]; then
+            sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE" || true
+            rm -rf "$GITHUB_WORKSPACE/dist"
+          fi
       - uses: actions/checkout@v4
       - name: Build combined toolset
         env:
