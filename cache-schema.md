@@ -1,7 +1,7 @@
 ---
+layout: page
 title: Cache Schema
-icon: fas fa-database
-order: 7
+permalink: /developer-notes/cache-schema/
 ---
 
 # Cache Schema
@@ -41,7 +41,7 @@ The current binary payload order is defined in `src/GafferScatterPaint/CacheForm
 
 - C++ cache IO is authoritative
 - Python fallback remains byte-compatible with the same format
-- some runtime and edit helpers still pass through dictionary-shaped data internally
+- some runtime and edit helpers still pass through dictionary-based data internally
 - partial cache rewrite optimization is not part of the current shipped behavior
 - authored color persists in schema version `2`
 - `debugColor` is runtime-only and is not serialized

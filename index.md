@@ -4,50 +4,105 @@ title: Home
 permalink: /
 ---
 
-![Scatter Paint Tools Logo](/assets/logo/dev-logo.png){: w="320" h="320" }
+![Scatter Paint Tools Logo]({{ '/assets/logo/dev-logo.png' | relative_url }}){: w="320" h="320" }
 
 # Scatter Paint Tools for Gaffer
 
-This site is the artist-facing home for the Scatter Paint Tools for Gaffer toolset.
+These plugins are for artists and TDs who want better scatter control inside Gaffer.
 
-You can use these tools to paint scatter by hand, generate scatter from support surfaces, and build or republish point clouds inside Gaffer.
+Use this set when you want to:
 
-This site explains:
+- paint points by hand in the viewer
+- stick painted points back onto geo
+- freeze a painted result for downstream work
+- scatter things procedurally from meshes, masks, and attrs
+- make or clean up point clouds for layout, dressing, or FX handoff
 
-- what each tool is for
-- how to install the full toolset
-- what gets downloaded in a release
-- where to look for current status and limitations
+On this site you can quickly find:
+
+- what each plugin does
+- how to install the release build
+- where to grab the latest package
+- what to watch out for in the current build
 
 ## Quick Start
 
-If you just want the full toolset build, run:
+If you just want the latest Linux package, start here:
 
-```bash
-./build-plugins.sh --plugin all --pull
+- [GitHub Releases](https://github.com/recomblacksmith/scatter-paint-tools-gaffer/releases)
+
+Current release file:
+
+```text
+scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0.tar.gz
 ```
 
-That command:
+That archive contains all three plugins together:
 
-- uses the shared build image for this project
-- downloads the matching Gaffer package automatically
-- builds all three plugins together
-- creates one ready-to-load toolset in `dist/gaffer`
-- runs a quick validation pass before finishing
+- Scatter Paint
+- Scatter Plus
+- PointCloud Plus
 
-You do not need to build each plugin by hand.
+## What Each Plugin Is For
 
-## Current Release Shape
+### Scatter Paint
 
-- each release contains all three tools together
-- the downloadable archive is `scatter-paint-tools-gaffer-toolset.tar.gz`
-- the runtime payload inside that archive lives under `dist/gaffer`
+Paint points by hand in the viewer for art-directed placement.
 
-Use the tabs in the sidebar to jump to build help, releases, and tool-specific pages.
+Good for:
+
+- grass touch-up
+- rock dressing
+- debris passes
+- ivy, leaves, bolts, and other hand-placed detail
+- quick shot-specific fixes when full procedural scatter is too broad
+
+### Scatter Plus
+
+Scatter points or instances procedurally across a mesh.
+
+Good for:
+
+- larger ground cover passes
+- image-driven density
+- attribute-driven masks
+- fast look-dev on support geo
+
+### PointCloud Plus
+
+Make point clouds from geometry, or clean up and republish incoming points.
+
+Good for:
+
+- turning surfaces into points
+- republishing points into a cleaner scene branch
+- simple point-cache prep for downstream work
+
+## Getting Started
+
+Start with the `Install` page in the sidebar.
+
+In most cases the flow is simple:
+
+1. download the release archive
+2. unpack it
+3. point Gaffer at the included plugin folder
+
+If your studio already has a Gaffer package in place, that is usually all you need.
+
+## Developer Notes
+
+If you need the technical pages, they are still here:
+
+- [Developer Notes]({{ '/developer-notes/' | relative_url }})
+- [Nodes]({{ '/developer-notes/nodes/' | relative_url }})
+- [Cache Schema]({{ '/developer-notes/cache-schema/' | relative_url }})
+- [Status Details]({{ '/developer-notes/status-details/' | relative_url }})
+- [Stats]({{ '/developer-notes/stats/' | relative_url }})
 
 ## Videos
 
-{% assign wip_video = '/assets/scatter-paint-tools-wip-720.mp4' %}
+{% assign wip_video = '/assets/scatter-paint-tools-wip-720.mp4' | relative_url %}
 {% include embed/video.html src=wip_video title='Scatter Paint Tools work-in-progress' %}
 
 {% include embed/youtube.html id='R47paQI2cdY' %}

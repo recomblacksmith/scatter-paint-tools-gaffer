@@ -1,14 +1,14 @@
 ---
+layout: page
 title: Nodes
-icon: fas fa-project-diagram
-order: 6
+permalink: /developer-notes/nodes/
 ---
 
 # Scatter Paint Nodes
 
 Scatter Paint is built around three main nodes.
 
-You do not need to understand every internal detail to use them. The simple version is:
+You do not need every low-level detail to use them. The short version is:
 
 - one node stores painted work
 - one node evaluates that work on geometry
@@ -53,7 +53,7 @@ It supports:
 - selection-only bakes
 - frame-sampled baked playback
 
-## Common Graph Shapes
+## Common Graphs
 
 ```text
 source scene -> PaintedPoints -> AttachedPoints -> preview/render/export

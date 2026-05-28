@@ -1,10 +1,10 @@
 ---
-title: Status
-icon: fas fa-list-check
-order: 8
+layout: page
+title: Status Details
+permalink: /developer-notes/status-details/
 ---
 
-# Scatter Paint Status
+# Scatter Paint Status Details
 
 ## Current State
 
@@ -26,7 +26,7 @@ order: 8
 
 1. A Python compatibility path still exists alongside the compiled path.
 2. Some startup compatibility shims are still part of the launch path.
-3. Some runtime edit helpers still use older internal data shapes even though cache IO itself is native.
+3. Some runtime edit helpers still use older internal data forms even though cache IO itself is native.
 
 ## Current Boundaries
 

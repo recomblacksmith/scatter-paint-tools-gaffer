@@ -1,55 +1,47 @@
 ---
 title: Releases
 icon: fas fa-box-open
-order: 2
+order: 5
 ---
 
 # Releases
 
-This project ships as one toolset release.
+Each release ships as one plugin pack.
 
-You do not need to download three separate plugins.
+You do not need three separate downloads.
 
-## Release Artifact
+## What You Get
 
-Each release publishes this archive:
+The current Linux release is:
 
 ```text
-scatter-paint-tools-gaffer-toolset.tar.gz
+scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0.tar.gz
 ```
 
-Inside it, you get one combined `dist/gaffer` payload containing:
+Inside it, you get:
 
 - Scatter Paint
 - Scatter Plus
 - PointCloud Plus
 
-## Release Flow
+All three live inside one `scatter-paint-tools-gaffer/` plugin folder.
 
-- `Linux Toolset Build` checks that the full toolset still builds
-- `Release Toolset` rebuilds the toolset from `main`, packages it, and publishes a GitHub release
-- the current build image is `d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0`
+That makes it easier to drop the whole set into a shared tools area for a show or sequence.
 
-## Builder Image Tags
-
-Available build image tags:
-
-- `d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0`
-- `d3smond/scatter-paint-tools-gaffer-build:latest`
-- `d3smond/scatter-paint-tools-gaffer-build:1`
-
-Pull explicitly with:
-
-```bash
-docker pull d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0
-```
-
-## GitHub Releases
+## Download
 
 - GitHub releases: <https://github.com/recomblacksmith/scatter-paint-tools-gaffer/releases>
 - source repository: <https://github.com/recomblacksmith/scatter-paint-tools-gaffer>
-- Docker Hub build image: <https://hub.docker.com/r/d3smond/scatter-paint-tools-gaffer-build>
 
-## Current Release Notes
+## Platform Notes
 
-See the release post on this site for the current packaging and publish flow.
+- Linux release packaging is live now.
+- Windows packaging is planned for a later machine setup.
+
+## Version Notes
+
+- version tag: `v0.1.0`
+- release title: `Scatter Paint Tools for Gaffer v0.1.0`
+- archive root matches the release filename, so it is easier to drop into a shot or tools area without renaming
+
+For the actual setup steps, head to the `Install` page.

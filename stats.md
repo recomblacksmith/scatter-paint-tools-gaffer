@@ -1,14 +1,14 @@
 ---
+layout: page
 title: Stats
-icon: fas fa-gauge-high
-order: 9
+permalink: /developer-notes/stats/
 ---
 
 # Scatter Paint Stats
 
 These numbers are a rough performance snapshot from recent real paint and erase runs.
 
-This page is mostly for technical review. If you are just using the tool, the main takeaway is whether paint and erase stay responsive enough for shot work.
+This page is mainly for technical review. If you are just using the tool, the main takeaway is whether paint and erase stay responsive enough for shot work.
 
 Average point counts used for normalization:
 

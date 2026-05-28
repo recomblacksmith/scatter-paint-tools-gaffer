@@ -4,10 +4,10 @@ lang: en
 timezone: UTC
 
 title: Scatter Paint Tools for Gaffer
-tagline: Docker-first Gaffer scatter toolset docs and releases
+tagline: Artist-friendly scatter painting and point tools for Gaffer
 description: >-
-  Documentation and release notes for the Scatter Paint Tools for Gaffer toolset,
-  including Docker-first builds, combined toolset releases, and plugin usage notes.
+  Simple docs, install help, and release notes for the Scatter Paint Tools for Gaffer
+  plugin set.
 
 url: "https://recomblacksmith.github.io"
 baseurl: "/scatter-paint-tools-gaffer"
@@ -19,7 +19,6 @@ social:
   name: recomblacksmith
   links:
     - https://github.com/recomblacksmith/scatter-paint-tools-gaffer
-    - https://hub.docker.com/r/d3smond/scatter-paint-tools-gaffer-build
 
 avatar: /assets/logo/dev-logo.png
 social_preview_image: /assets/logo/dev-logo.png

@@ -1,38 +1,32 @@
 ---
-title: Combined Toolset Release Pipeline
+title: Scatter Paint Tools for Gaffer v0.1.0
 date: 2026-05-28 12:00:00 +0000
 categories: [Releases]
-tags: [gaffer, docker, github-actions]
+tags: [gaffer, releases]
 pin: true
-description: How the combined Scatter Paint Tools for Gaffer release is packaged and published.
+description: Simple release notes for the first packaged Linux build.
 ---
 
-This project now ships as one combined toolset release.
+The first packaged Linux release is live.
 
-That means artists do not need to hunt for separate plugin downloads.
+You only need one download for all three plugins.
 
 ## What Gets Released
 
-- artifact name: `scatter-paint-tools-gaffer-toolset.tar.gz`
-- payload root: `dist/gaffer`
-- included tools:
-  - Scatter Paint
-  - Scatter Plus
-  - PointCloud Plus
+- release file: `scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0.tar.gz`
+- included plugins: Scatter Paint, Scatter Plus, and PointCloud Plus
+- setup note: the archive also includes `how-to-setup.md`
 
-## Build Inputs
+## What It Is For
 
-- builder image: `d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0`
-- packaged Gaffer runtime: `1.6.18.0`
-- entrypoint: `./build-plugins.sh --plugin all --pull`
+This release is meant to be the easy install path for artists and TDs who just want the plugins loaded into Gaffer without digging through separate builds.
 
-## Automation
+## Download
 
-The release workflow:
+- GitHub releases: <https://github.com/recomblacksmith/scatter-paint-tools-gaffer/releases>
 
-1. rebuilds the full toolset on `main`
-2. archives `dist/gaffer`
-3. creates a timestamp tag
-4. publishes a GitHub release
+## Current Notes
 
-This keeps the docs, build image, and downloadable release aligned around one install path.
+- Linux package is ready now.
+- Windows packaging will be added later.
+- The docs on this site now focus on install and plugin use instead of build-system details.

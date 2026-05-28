@@ -1,12 +1,12 @@
 ---
 title: PointCloud Plus
 icon: fas fa-cloud
-order: 5
+order: 4
 ---
 
 # Gaffer PointCloud Plus
 
-PointCloud Plus is the point-cloud utility tool in the set.
+PointCloud Plus is the point-cloud utility plugin in the set.
 
 Use it when you want to generate points from geometry, republish points cleanly, or remap point playback.
 
@@ -18,7 +18,14 @@ Use it when you want to generate points from geometry, republish points cleanly,
 - remaps playback timing for file-style point caches
 - keeps the rest of the source scene intact while adding the point output
 
-## Runtime Registration
+Typical examples:
+
+- turning a mesh into points for downstream scatter
+- rebuilding a point branch into a cleaner location in the scene
+- republishing points before handing them to lighting or FX
+- quick point prep without a big graph rewrite
+
+## What You See In Gaffer
 
 - `/PointCloud/PointCloud Plus`
 - `/PointCloudPlus/Nodes/PointCloud Plus`
@@ -27,15 +34,8 @@ Use it when you want to generate points from geometry, republish points cleanly,
 - `/PointCloudPlus/Demos/File Republish`
 - `/Tools/PointCloud Plus/...`
 
-## What Is Already Covered
+## Notes
 
-Current build coverage checks:
+This one is less flashy than Scatter Paint, but it is useful glue when a point job needs to be tidied up fast.
 
-- geometry mode
-- primitive-center mode
-- file republish mode
-- auto-discovery of input point locations
-- playback remapping
-- intermediate branch creation
-- preserved ancestor transforms and attributes
-- demo action wiring
+For the deeper technical notes, use the developer pages from the home screen.
