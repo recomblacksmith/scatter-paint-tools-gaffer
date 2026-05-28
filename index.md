@@ -17,6 +17,8 @@ This site is generated from the `gh-pages` branch on this repository.
 - [Current progress](/docs/current.md)
 
 ## 🎬 Watch the videos!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/R47paQI2cdY?si=y-5T6YJ_xS_LsJjb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/FumNi5t9K7k?si=8jCeKxgxyD5ZDTU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lyFmMzGyIc8?si=7aMnx8-36Yoq0pkR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
