@@ -1,0 +1,7 @@
+FROM ghcr.io/gafferhq/build/build:3.4.0
+
+SHELL ["/bin/bash", "-lc"]
+
+RUN pip3 install --no-cache-dir scons==4.10.1
+
+WORKDIR /workspace

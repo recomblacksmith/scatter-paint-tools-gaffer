@@ -1,0 +1,36 @@
+name: Release Toolset
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: [self-hosted, linux]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build combined toolset
+        env:
+          IMAGE_NAME: d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0
+        run: ./build-plugins.sh --plugin all --pull
+      - name: Archive toolset release
+        run: tar -czf scatter-paint-tools-gaffer-toolset.tar.gz -C dist gaffer
+      - name: Create release tag
+        id: tag
+        run: |
+          stamp="$(date -u +%Y%m%d%H%M%S)"
+          echo "tag=build-${stamp}" >> "$GITHUB_OUTPUT"
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: ${{ steps.tag.outputs.tag }}
+          files: scatter-paint-tools-gaffer-toolset.tar.gz
+          generate_release_notes: true

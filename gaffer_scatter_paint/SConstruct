@@ -1,0 +1,154 @@
+import os
+import pathlib
+import json
+import subprocess
+
+
+plugin_root = pathlib.Path(Dir(".").abspath).resolve()
+repo_root = plugin_root.parent
+default_gaffer_root = None
+
+
+def _existing_path(value):
+    if not value:
+        return None
+    path = pathlib.Path(value).expanduser()
+    return path if path.exists() else None
+
+
+def _runtime_tree(path):
+    if path is None:
+        return False
+    return all(
+        (path / entry).exists() for entry in ("include", "lib", "python", "bin/python")
+    )
+
+def _query_python_abi(runtime_root):
+    python_bin = runtime_root / "bin" / "python"
+    if not python_bin.exists():
+        raise RuntimeError(f"Expected target Gaffer Python at {python_bin}")
+
+    env = os.environ.copy()
+    runtime_lib = str(runtime_root / "lib")
+    existing_ld_library_path = env.get("LD_LIBRARY_PATH")
+    env["LD_LIBRARY_PATH"] = (
+        f"{runtime_lib}:{existing_ld_library_path}"
+        if existing_ld_library_path
+        else runtime_lib
+    )
+
+    query = """
+import json
+import sys
+import sysconfig
+
+print(json.dumps({
+    \"version\": f\"{sys.version_info[0]}.{sys.version_info[1]}\",
+    \"include\": sysconfig.get_path(\"include\"),
+    \"ext_suffix\": sysconfig.get_config_var(\"EXT_SUFFIX\"),
+    \"ldlibrary\": sysconfig.get_config_var(\"LDLIBRARY\"),
+    \"abiflags\": getattr(sys, \"abiflags\", \"\"),
+}))
+""".strip()
+
+    output = subprocess.check_output(
+        [str(python_bin), "-c", query],
+        env=env,
+        text=True,
+    )
+    return json.loads(output)
+
+
+def _library_name_from_filename(filename):
+    name = filename.name
+    if name.startswith("lib"):
+        name = name[3:]
+    if ".so" in name:
+        name = name.split(".so", 1)[0]
+    return name
+
+
+def _resolve_library(lib_dir, preferred_names, pattern):
+    for name in preferred_names:
+        candidate = lib_dir / f"lib{name}.so"
+        if candidate.exists():
+            return name
+
+    matches = sorted(lib_dir.glob(pattern))
+    if matches:
+        return _library_name_from_filename(matches[0])
+
+    raise RuntimeError(f"Unable to resolve library matching {pattern} in {lib_dir}")
+
+
+gaffer_root = _existing_path(ARGUMENTS.get("GAFFER_ROOT"))
+if gaffer_root is None:
+    gaffer_root = _existing_path(os.environ.get("GAFFER_ROOT"))
+
+if gaffer_root is None:
+    raise RuntimeError(
+        "GafferScatterPaint build requires GAFFER_ROOT pointing at a packaged Gaffer runtime."
+    )
+
+if _runtime_tree(gaffer_root):
+    gaffer_header_root = gaffer_root
+    gaffer_runtime_root = gaffer_root
+else:
+    raise RuntimeError(
+        f"GAFFER_ROOT must point at a packaged Gaffer runtime with include/, lib/, python/, and bin/python. Got: {gaffer_root}"
+    )
+
+python_abi = _query_python_abi(gaffer_runtime_root)
+python_version = python_abi["version"]
+python_digits = python_version.replace(".", "")
+python_include_dir = pathlib.Path(python_abi["include"])
+gaffer_lib_dir = gaffer_runtime_root / "lib"
+boost_python_lib = _resolve_library(
+    gaffer_lib_dir,
+    [f"boost_python{python_digits}", f"boost_python{python_version}", "boost_python3", "boost_python"],
+    "libboost_python*.so*",
+)
+python_lib = _resolve_library(
+    gaffer_lib_dir,
+    [
+        _library_name_from_filename(pathlib.Path(python_abi["ldlibrary"] or "libpython.so")),
+        f"python{python_version}",
+        "python3",
+    ],
+    "libpython*.so*",
+)
+
+default_build_dir = plugin_root / "build"
+default_install_dir = plugin_root / "install"
+
+ARGUMENTS.setdefault("BUILD_DIR", str(default_build_dir))
+ARGUMENTS.setdefault("INSTALL_DIR", str(default_install_dir))
+
+help_text = f"""
+GafferScatterPaint local build
+
+Examples:
+  scons GAFFER_ROOT={gaffer_root}
+  scons GAFFER_ROOT=/path/to/gaffer-package BUILD_DIR={default_build_dir} INSTALL_DIR={default_install_dir}
+
+GAFFER_ROOT must point at a packaged Gaffer runtime.
+"""
+
+Help(help_text)
+
+plugin_env = {
+    "GAFFER_ROOT": str(gaffer_root),
+    "GAFFER_HEADER_ROOT": str(gaffer_header_root),
+    "GAFFER_RUNTIME_ROOT": str(gaffer_runtime_root),
+    "GAFFER_LIB_DIR": str(gaffer_lib_dir),
+    "GAFFER_PYTHON_VERSION": python_version,
+    "GAFFER_PYTHON_INCLUDE_DIR": str(python_include_dir),
+    "GAFFER_PYTHON_LIBRARY": python_lib,
+    "GAFFER_BOOST_PYTHON_LIBRARY": boost_python_lib,
+    "GAFFER_EXTENSION_SUFFIX": python_abi["ext_suffix"] or ".so",
+    "GAFFER_EXTENSION_NAME": "GafferScatterPaint",
+    "GAFFER_EXTENSION_ROOT": str(plugin_root),
+}
+
+Export("plugin_env")
+SConscript(str(plugin_root / "sconstruct_ext.py"), exports=["plugin_env"])
