@@ -73,6 +73,20 @@ Release behavior:
 - publishes a versioned Linux archive such as `scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0.tar.gz`
 - unpacks into a versioned folder with `how-to-setup.md` and per-plugin directories under `scatter-paint-tools-gaffer/`
 
+Launch example from an unpacked release:
+
+```bash
+PYTHONNOUSERSITE=1 \
+GAFFER_SCATTER_PAINT_DIAGNOSTICS=1 \
+IECORE_FONT_PATHS="/path/to/gaffer-1.6.18.0-linux-gcc11/fonts" \
+LD_LIBRARY_PATH="/path/to/gaffer-1.6.18.0-linux-gcc11/lib" \
+PYTHONPATH="/path/to/scatter-paint-tools-gaffer/gaffer_scatter_paint/python:/path/to/scatter-paint-tools-gaffer/gaffer_scatter_plus/python:/path/to/scatter-paint-tools-gaffer/gaffer_pointcloud_plus/python:/path/to/gaffer-1.6.18.0-linux-gcc11/python" \
+GAFFER_STARTUP_PATHS="/path/to/scatter-paint-tools-gaffer/gaffer_scatter_paint/startup:/path/to/scatter-paint-tools-gaffer/gaffer_scatter_plus/startup:/path/to/scatter-paint-tools-gaffer/gaffer_pointcloud_plus/startup" \
+"/path/to/gaffer-1.6.18.0-linux-gcc11/bin/gaffer"
+```
+
+That launches Gaffer with all three plugins loaded from the shipped release layout.
+
 Typical side-loading uses:
 
 - `PYTHONPATH`
