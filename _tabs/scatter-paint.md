@@ -10,6 +10,8 @@ Scatter Paint is the hand-placed scatter plugin in this set.
 
 Use it when you want an artist-driven result instead of letting a setup spray everywhere.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/R47paQI2cdY?si=AWoMOpYbvQ6hVp1D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## What It Gives You
 
 - `PaintedPoints` to store painted scatter data
@@ -46,3 +48,12 @@ After the plugins are loaded, Gaffer adds:
 If you want install help, go to `Install`.
 
 If you want the more technical pages, go to `Developer Notes` from the home page.
+
+
+![gui-left.png](/assets/images/painter/gui-left.png)
+
+![gui-right.png](/assets/images/painter/gui-right.png)
+![pane01.png](/assets/images/painter/pane01.png)
+![pane02.png](/assets/images/painter/pane02.png)
+![pane03.png](/assets/images/painter/pane03.png)
+![pane04.png](/assets/images/painter/pane04.png)

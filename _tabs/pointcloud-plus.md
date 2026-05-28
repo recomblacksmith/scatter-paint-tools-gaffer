@@ -10,6 +10,9 @@ PointCloud Plus is the point-cloud utility plugin in the set.
 
 Use it when you want to generate points from geometry, republish points cleanly, or remap point playback.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xRk4YGDx5qg?si=-JeBF1N0x-IHuqEQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
 ## What It Does
 
 - creates random points on surfaces
@@ -39,3 +42,7 @@ Typical examples:
 This one is less flashy than Scatter Paint, but it is useful glue when a point job needs to be tidied up fast.
 
 For the deeper technical notes, use the developer pages from the home screen.
+
+![pane01.png](/assets/images/pointcloud_plus/pane01.png)
+![pane02.png](/assets/images/pointcloud_plus/pane02.png)
+![pane03.png](/assets/images/pointcloud_plus/pane03.png)

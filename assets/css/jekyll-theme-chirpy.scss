@@ -12,14 +12,37 @@
 
 .content pre,
 .content .highlight {
-  margin: 1rem 0 1.25rem;
+  margin: 0.75rem 0 1.25rem;
   border-radius: 0.85rem;
 }
 
 .content .highlight pre,
-.content pre code {
-  padding: 1rem 1.1rem;
+.content pre code,
+.content .highlighter-rouge > .highlight > code {
+  display: block;
+  padding: 0.6rem 1rem 0.85rem;
   overflow-x: auto;
+}
+
+.content .highlighter-rouge > .highlight > code {
+  padding: 0 1rem 0.55rem !important;
+  line-height: 1.45;
+}
+
+.content .highlighter-rouge {
+  margin: 0.75rem 0 1rem;
+}
+
+.content .highlighter-rouge > .highlight {
+  margin: 0;
+}
+
+.content .highlighter-rouge .code-header {
+  margin-bottom: 0;
+}
+
+.content .highlight .rouge-code pre {
+  margin-top: 0;
 }
 
 .content .highlight table {
@@ -36,4 +59,51 @@
 .content ul,
 .content ol {
   margin-bottom: 1rem;
+}
+
+#sidebar #avatar,
+#sidebar #avatar a {
+  width: 100%;
+  height: auto;
+  margin: 0 0 1rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0 !important;
+  box-shadow: none;
+  outline: 0;
+  overflow: visible;
+}
+
+#sidebar #avatar.rounded-circle {
+  border-radius: 0 !important;
+}
+
+#sidebar #avatar img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0 !important;
+  box-shadow: none;
+}
+
+.content .img-link[href*="/assets/images/painter/"],
+.content .img-link[href*="/assets/images/scatter_plus/"],
+.content .img-link[href*="/assets/images/pointcloud_plus/"] {
+  display: block;
+  height: 200px;
+  margin: 0 0 1rem;
+  overflow: hidden;
+}
+
+.content .img-link[href*="/assets/images/painter/"] img,
+.content .img-link[href*="/assets/images/scatter_plus/"] img,
+.content .img-link[href*="/assets/images/pointcloud_plus/"] img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: top left;
 }

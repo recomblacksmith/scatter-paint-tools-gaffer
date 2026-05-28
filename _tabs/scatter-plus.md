@@ -10,6 +10,8 @@ Scatter Plus is the procedural scatter plugin in the set.
 
 Use it when you want to spread instances across a support surface without painting them by hand.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/DwC-xjKSDZI?si=eQXtcwB6WoHPebiE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## What It Does
 
 - scatters points and instances across support geometry
@@ -36,3 +38,9 @@ Typical examples:
 This is the plugin to reach for when you want broad coverage fast, then art-direct the final bits with Scatter Paint.
 
 For the technical test/coverage notes, use the developer pages from the home screen.
+
+![pane01.png](/assets/images/scatter_plus/pane01.png)
+![pane02.png](/assets/images/scatter_plus/pane02.png)
+![pane03.png](/assets/images/scatter_plus/pane03.png)
+![pane04.png](/assets/images/scatter_plus/pane04.png)
+![pane05.png](/assets/images/scatter_plus/pane05.png)
