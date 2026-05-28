@@ -100,4 +100,4 @@ Use the plugin-local docs and design notes for deeper implementation detail.
 
 ## Status
 
-This repository is the canonical standalone home for this plugin set.
+This repository is the home for this plugin set.
