@@ -16,8 +16,10 @@ jobs:
       - name: Prepare runner workspace
         run: |
           if [ -d "$GITHUB_WORKSPACE" ]; then
-            sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE" || true
-            rm -rf "$GITHUB_WORKSPACE/dist"
+            docker run --rm \
+              -v "$GITHUB_WORKSPACE":/workspace \
+              alpine:3.20 \
+              sh -lc "chown -R $(id -u):$(id -g) /workspace || true; rm -rf /workspace/dist"
           fi
       - uses: actions/checkout@v4
       - name: Build toolset
