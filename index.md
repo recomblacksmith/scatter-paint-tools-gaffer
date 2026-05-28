@@ -1,27 +1,54 @@
 ---
-title: "Scatter‑Paint Tools Docs"
+layout: page
+title: Home
+permalink: /
 ---
 
-![Scatter‑Paint Logo](/assets/logo/dev-logo.png)
+![Scatter Paint Tools Logo](/assets/logo/dev-logo.png){: w="320" h="320" }
 
-# Scatter‑Paint Tools Documentation
+# Scatter Paint Tools for Gaffer
 
-Welcome to the documentation for the Gaffer Scatter Paint plugin.
+This site tracks the current Scatter Paint Tools for Gaffer toolset.
 
-This site is generated from the `gh-pages` branch on this repository.
+It documents the Docker-first build flow, the combined toolset release payload, and the current shipped surface for:
 
-## Resources
+- `gaffer_scatter_paint`
+- `gaffer_scatter_plus`
+- `gaffer_pointcloud_plus`
 
-- [Roadmap](/docs/roadmap.md)
-- [Cache schema](/docs/cache-schema.md)
-- [Current progress](/docs/current.md)
+## Quick Start
 
-## 🎬 Watch the videos!
-<iframe width="560" height="315" src="https://www.youtube.com/embed/R47paQI2cdY?si=y-5T6YJ_xS_LsJjb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+Build the full toolset locally with Docker:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/FumNi5t9K7k?si=8jCeKxgxyD5ZDTU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```bash
+./build-plugins.sh --plugin all --pull
+```
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lyFmMzGyIc8?si=7aMnx8-36Yoq0pkR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+That flow:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/5Qni1gobubE?si=eSPoE_Yq8KglKe0v" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+- pulls or reuses `d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0`
+- downloads and verifies packaged Gaffer `1.6.18.0`
+- builds all three plugins
+- assembles one combined side-load payload under `dist/gaffer`
+- smoke-tests the combined toolset
 
+## Current Release Shape
+
+- one combined GitHub release per toolset build
+- one combined artifact: `scatter-paint-tools-gaffer-toolset.tar.gz`
+- one combined runtime payload inside `dist/gaffer`
+
+Use the sidebar tabs for build instructions, releases, plugin pages, and deeper scatter-paint docs.
+
+## Videos
+
+{% assign wip_video = '/assets/scatter-paint-tools-wip-720.mp4' %}
+{% include embed/video.html src=wip_video title='Scatter Paint Tools work-in-progress' %}
+
+{% include embed/youtube.html id='R47paQI2cdY' %}
+
+{% include embed/youtube.html id='FumNi5t9K7k' %}
+
+{% include embed/youtube.html id='lyFmMzGyIc8' %}
+
+{% include embed/youtube.html id='5Qni1gobubE' %}

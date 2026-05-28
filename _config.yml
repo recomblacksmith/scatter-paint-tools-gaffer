@@ -1,4 +1,79 @@
----
-# GitHub Pages configuration
-theme: minima
----
+theme: jekyll-theme-chirpy
+
+lang: en
+timezone: UTC
+
+title: Scatter Paint Tools for Gaffer
+tagline: Docker-first Gaffer scatter toolset docs and releases
+description: >-
+  Documentation and release notes for the Scatter Paint Tools for Gaffer toolset,
+  including Docker-first builds, combined toolset releases, and plugin usage notes.
+
+url: "https://recomblacksmith.github.io"
+baseurl: "/scatter-paint-tools-gaffer"
+
+github:
+  username: recomblacksmith
+
+social:
+  name: recomblacksmith
+  links:
+    - https://github.com/recomblacksmith/scatter-paint-tools-gaffer
+    - https://hub.docker.com/r/d3smond/scatter-paint-tools-gaffer-build
+
+avatar: /assets/logo/dev-logo.png
+social_preview_image: /assets/logo/dev-logo.png
+
+theme_mode: dark
+toc: true
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: false
+      toc: true
+      permalink: /posts/:title/
+  - scope:
+      path: ""
+      type: tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
+
+exclude:
+  - README.md
+  - LICENSE
+  - docs
+  - vendor
+  - .bundle
+  - .sass-cache
+  - .jekyll-cache
