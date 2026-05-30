@@ -1,0 +1,35 @@
+name: Windows Toolset Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [self-hosted, Windows, X64]
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: true
+
+      - name: Install SCons
+        run: py -m pip install --user scons
+
+      - name: Build toolset
+        env:
+          GAFFER_VERSION: 1.6.18.0
+          GAFFER_CACHE_ROOT: 'T:\github-runner-cache\scatter-paint-tools-gaffer\gaffer'
+        run: .\build-plugins.ps1 -Plugin all
+
+      - name: Upload Windows build payload
+        uses: actions/upload-artifact@v4
+        with:
+          name: scatter-paint-tools-gaffer-windows-gaffer-1.6.18.0
+          path: dist\gaffer
+          if-no-files-found: error

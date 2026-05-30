@@ -5,10 +5,14 @@ __pycache__/
 
 # C extensions
 *.so
+*.pyd
 
 # SCons and plugin build outputs
+*.obj
 *.os
 *.os.d
+*.exp
+*.lib
 *.sconsign.dblite
 
 # Generated plugin docs

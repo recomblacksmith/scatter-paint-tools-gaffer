@@ -46,6 +46,7 @@ namespace bp = boost::python;
 #include <array>
 #include <cctype>
 #include <cmath>
+#include <cstdint>
 #include <limits>
 #include <cstdlib>
 #include <filesystem>
@@ -53,7 +54,12 @@ namespace bp = boost::python;
 #include <set>
 #include <stdexcept>
 #include <string>
+#if defined(_WIN32)
+#include <process.h>
+using ssize_t = std::intptr_t;
+#else
 #include <unistd.h>
+#endif
 #include <vector>
 
 using namespace Gaffer;

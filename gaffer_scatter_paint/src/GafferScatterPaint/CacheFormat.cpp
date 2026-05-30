@@ -821,7 +821,11 @@ std::string utcTimestampNow()
 	const auto now = system_clock::now();
 	const std::time_t nowTime = system_clock::to_time_t( now );
 	std::tm utcTm;
+#if defined(_WIN32)
+	gmtime_s( &utcTm, &nowTime );
+#else
 	gmtime_r( &nowTime, &utcTm );
+#endif
 	std::ostringstream stream;
 	stream << std::put_time( &utcTm, "%Y-%m-%dT%H:%M:%SZ" );
 	return stream.str();

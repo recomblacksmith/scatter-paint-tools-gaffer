@@ -7,6 +7,7 @@ import subprocess
 plugin_root = pathlib.Path(Dir(".").abspath).resolve()
 repo_root = plugin_root.parent
 default_gaffer_root = None
+is_windows = os.name == "nt"
 
 
 def _existing_path(value):
@@ -19,10 +20,11 @@ def _existing_path(value):
 def _runtime_tree(path):
     if path is None:
         return False
-    return all((path / entry).exists() for entry in ("include", "lib", "python", "bin/python"))
+    python_bin = "bin/python.exe" if is_windows else "bin/python"
+    return all((path / entry).exists() for entry in ("include", "lib", "python", python_bin))
 
 def _query_python_abi(runtime_root):
-    python_bin = runtime_root / "bin" / "python"
+    python_bin = runtime_root / "bin" / ("python.exe" if is_windows else "python")
     if not python_bin.exists():
         raise RuntimeError(f"Expected target Gaffer Python at {python_bin}")
 
@@ -52,18 +54,25 @@ print(json.dumps({
 
 def _library_name_from_filename(filename):
     name = filename.name
-    if name.startswith("lib"):
+    if name.startswith("lib") and not name.endswith(".lib"):
         name = name[3:]
     if ".so" in name:
         name = name.split(".so", 1)[0]
+    elif name.endswith(".lib"):
+        name = name[:-4]
     return name
 
 
 def _resolve_library(lib_dir, preferred_names, pattern):
     for name in preferred_names:
-        candidate = lib_dir / f"lib{name}.so"
-        if candidate.exists():
-            return name
+        candidates = (
+            [lib_dir / f"{name}.lib", lib_dir / f"lib{name}.lib"]
+            if is_windows
+            else [lib_dir / f"lib{name}.so"]
+        )
+        for candidate in candidates:
+            if candidate.exists():
+                return _library_name_from_filename(candidate)
 
     matches = sorted(lib_dir.glob(pattern))
     if matches:
@@ -83,22 +92,23 @@ if _runtime_tree(gaffer_root):
     gaffer_header_root = gaffer_root
     gaffer_runtime_root = gaffer_root
 else:
-    raise RuntimeError(f"GAFFER_ROOT must point at a packaged Gaffer runtime with include/, lib/, python/, and bin/python. Got: {gaffer_root}")
+    raise RuntimeError(f"GAFFER_ROOT must point at a packaged Gaffer runtime with include/, lib/, python/, and bin/python(.exe). Got: {gaffer_root}")
 
 python_abi = _query_python_abi(gaffer_runtime_root)
 python_version = python_abi["version"]
 python_digits = python_version.replace(".", "")
 python_include_dir = pathlib.Path(python_abi["include"])
 gaffer_lib_dir = gaffer_runtime_root / "lib"
+python_lib_dir = gaffer_runtime_root / "libs" if is_windows else gaffer_lib_dir
 boost_python_lib = _resolve_library(
     gaffer_lib_dir,
     [f"boost_python{python_digits}", f"boost_python{python_version}", "boost_python3", "boost_python"],
-    "libboost_python*.so*",
+    "boost_python*.lib" if is_windows else "libboost_python*.so*",
 )
 python_lib = _resolve_library(
-    gaffer_lib_dir,
-    [_library_name_from_filename(pathlib.Path(python_abi["ldlibrary"] or "libpython.so")), f"python{python_version}", "python3"],
-    "libpython*.so*",
+    python_lib_dir,
+    [_library_name_from_filename(pathlib.Path(python_abi["ldlibrary"] or ("python.lib" if is_windows else "libpython.so"))), f"python{python_digits}", f"python{python_version}", "python3"],
+    "python*.lib" if is_windows else "libpython*.so*",
 )
 
 Help(
@@ -116,11 +126,14 @@ plugin_env = {
     "GAFFER_HEADER_ROOT": str(gaffer_header_root),
     "GAFFER_RUNTIME_ROOT": str(gaffer_runtime_root),
     "GAFFER_LIB_DIR": str(gaffer_lib_dir),
+    "GAFFER_PYTHON_LIB_DIR": str(python_lib_dir),
     "GAFFER_PYTHON_INCLUDE_DIR": str(python_include_dir),
     "GAFFER_PYTHON_LIBRARY": python_lib,
     "GAFFER_BOOST_PYTHON_LIBRARY": boost_python_lib,
     "GAFFER_EXTENSION_NAME": "GafferScatterPlus",
     "GAFFER_EXTENSION_ROOT": str(plugin_root),
+    "GAFFER_EXTENSION_SUFFIX": python_abi["ext_suffix"] or (".pyd" if is_windows else ".so"),
+    "GAFFER_PLATFORM": "windows" if is_windows else "linux",
 }
 
 Export("plugin_env")
