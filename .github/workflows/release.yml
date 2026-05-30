@@ -7,28 +7,30 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Release tag to publish, for example v0.1.1
+        description: Release tag to publish, for example v0.1.2
         required: true
         type: string
 
 permissions:
   contents: write
 
+env:
+  GAFFER_VERSION: 1.6.18.0
+
 jobs:
-  release:
+  prepare:
     runs-on: [self-hosted, linux]
     defaults:
       run:
         shell: bash
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+      linux_archive: ${{ steps.version.outputs.linux_archive }}
+      linux_root: ${{ steps.version.outputs.linux_root }}
+      windows_archive: ${{ steps.version.outputs.windows_archive }}
+      windows_root: ${{ steps.version.outputs.windows_root }}
     steps:
-      - name: Prepare runner workspace
-        run: |
-          if [ -d "$GITHUB_WORKSPACE" ]; then
-            docker run --rm \
-              -v "$GITHUB_WORKSPACE":/workspace \
-              alpine:3.20 \
-              sh -lc "chown -R $(id -u):$(id -g) /workspace || true; rm -rf /workspace/dist"
-          fi
       - uses: actions/checkout@v4
       - name: Read release version
         id: version
@@ -49,23 +51,91 @@ jobs:
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
-          echo "archive=scatter-paint-tools-gaffer-v${version}-linux-gaffer-1.6.18.0.tar.gz" >> "$GITHUB_OUTPUT"
-          echo "root=scatter-paint-tools-gaffer-v${version}-linux-gaffer-1.6.18.0" >> "$GITHUB_OUTPUT"
-      - name: Build combined toolset
+          echo "linux_archive=scatter-paint-tools-gaffer-v${version}-linux-gaffer-${GAFFER_VERSION}.tar.gz" >> "$GITHUB_OUTPUT"
+          echo "linux_root=scatter-paint-tools-gaffer-v${version}-linux-gaffer-${GAFFER_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "windows_archive=scatter-paint-tools-gaffer-v${version}-windows-gaffer-${GAFFER_VERSION}.zip" >> "$GITHUB_OUTPUT"
+          echo "windows_root=scatter-paint-tools-gaffer-v${version}-windows-gaffer-${GAFFER_VERSION}" >> "$GITHUB_OUTPUT"
+
+  build-linux:
+    needs: prepare
+    runs-on: [self-hosted, linux]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Prepare runner workspace
+        run: |
+          if [ -d "$GITHUB_WORKSPACE" ]; then
+            docker run --rm \
+              -v "$GITHUB_WORKSPACE":/workspace \
+              alpine:3.20 \
+              sh -lc "chown -R $(id -u):$(id -g) /workspace || true; rm -rf /workspace/dist"
+          fi
+      - uses: actions/checkout@v4
+      - name: Build combined Linux toolset
         env:
           IMAGE_NAME: d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0
         run: ./build-plugins.sh --plugin all --pull
-      - name: Prepare user-facing release package
+      - name: Prepare Linux release package
         env:
-          GAFFER_VERSION: 1.6.18.0
           TARGET_OS: linux
         run: ./ci/package_release.sh
       - name: Archive Linux release package
-        run: tar -czf "${{ steps.version.outputs.archive }}" -C dist/release "${{ steps.version.outputs.root }}"
+        run: tar -czf "${{ needs.prepare.outputs.linux_archive }}" -C dist/release "${{ needs.prepare.outputs.linux_root }}"
+      - name: Upload Linux release archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-release-archive
+          path: ${{ needs.prepare.outputs.linux_archive }}
+          if-no-files-found: error
+
+  build-windows:
+    needs: prepare
+    runs-on: [self-hosted, Windows, X64]
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: true
+      - name: Install SCons
+        run: py -m pip install --user scons
+      - name: Build combined Windows toolset
+        env:
+          GAFFER_CACHE_ROOT: 'T:\github-runner-cache\scatter-paint-tools-gaffer\gaffer'
+        run: .\build-plugins.ps1 -Plugin all
+      - name: Prepare Windows release package
+        run: .\ci\package_release.ps1
+      - name: Archive Windows release package
+        run: Compress-Archive -LiteralPath "dist\release\${{ needs.prepare.outputs.windows_root }}" -DestinationPath "${{ needs.prepare.outputs.windows_archive }}" -Force
+      - name: Upload Windows release archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release-archive
+          path: ${{ needs.prepare.outputs.windows_archive }}
+          if-no-files-found: error
+
+  publish:
+    needs:
+      - prepare
+      - build-linux
+      - build-windows
+    runs-on: [self-hosted, linux]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Download release archives
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+      - name: List release archives
+        run: find release-artifacts -type f -maxdepth 3 -print
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          name: Scatter Paint Tools for Gaffer ${{ steps.version.outputs.tag }}
-          files: ${{ steps.version.outputs.archive }}
+          tag_name: ${{ needs.prepare.outputs.tag }}
+          name: Scatter Paint Tools for Gaffer ${{ needs.prepare.outputs.tag }}
+          files: release-artifacts/**/*
           generate_release_notes: true
