@@ -1,0 +1,5 @@
+User-agent: *
+
+Disallow: /norobots/
+
+Sitemap: https://recomblacksmith.github.io/scatter-paint-tools-gaffer/sitemap.xml
