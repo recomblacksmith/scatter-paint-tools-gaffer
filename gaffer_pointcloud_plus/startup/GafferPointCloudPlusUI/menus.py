@@ -45,7 +45,7 @@ def _register_pointcloud_plus_node_menu(node_menu):
         searchText="PointCloudPlus primitive center demo",
     )
     node_menu.append(
-        "/PointCloudPlus/Demos/File Republish",
+        "/PointCloudPlus/Demos/File Output",
         actions.build_file_demo,
         searchText="PointCloudPlus file demo",
     )
@@ -70,7 +70,7 @@ def _pointcloud_menu_definition(menu):
         {"command": actions.build_primitive_center_demo},
     )
     definition.append(
-        "/Demos/File Republish",
+        "/Demos/File Output",
         {"command": actions.build_file_demo},
     )
     return definition

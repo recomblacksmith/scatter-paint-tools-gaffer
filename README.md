@@ -4,9 +4,11 @@
 
 # Scatter Paint Tools for Gaffer
 
-Artist-friendly scatter painting and point tools for Gaffer.
+Paint, scatter, attach, and bake points directly inside Gaffer.
 
-Scatter Paint Tools is a side-loadable Gaffer plugin set for artists and TDs who need better control over placed detail, procedural scatter, and point-cloud prep inside shot workflows.
+Paint hero detail. Fill broad areas procedurally. Bake clean outputs for the next step.
+
+Scatter Paint Tools is a side-loadable Gaffer plugin set for artists and TDs who need shot-level control over surface detail, procedural dressing, and point-cloud prep inside Gaffer. Paint hero placement by hand, generate broader scatter procedurally, keep points attached to changing geometry, and bake or export clean outputs for layout, dressing, lighting, FX, or downstream handoff.
 
 ## Artist Documentation
 
@@ -16,17 +18,18 @@ Read the user-facing install, release, and plugin docs here:
 
 ## What You Can Do
 
-- paint points by hand in the viewer
-- stick painted points back onto geometry
-- freeze painted results for downstream work
-- scatter points or instances procedurally from meshes, masks, and attributes
-- generate, clean up, and republish point clouds for layout, dressing, lighting, or FX handoff
+- paint rocks, grass, leaves, bolts, debris, set dressing, or other shot detail directly in the viewer
+- keep painted points attached to animated or changing surfaces
+- use layers, strokes, selections, visibility, mute, solo, timing, and color overrides to manage art direction
+- relax, reproject, erase, edit, validate, repair, export, and bake painted scatter data
+- scatter points or instances procedurally from meshes, masks, attributes, and images
+- generate, clean up, and output point clouds for layout, dressing, lighting, or FX handoff
 
 ## Plugins
 
 ### `gaffer_scatter_paint`
 
-Hand-placed scatter painting for art-directed placement. Use it for grass touch-up, rocks, leaves, bolts, debris, and other shot-specific detail that needs direct artist control.
+Hand-placed scatter painting for art-directed placement. Use it when a shot needs specific placement: grass touch-up, rocks, leaves, bolts, debris, footprints, dressing fixes, or any detail that needs an artist's eye.
 
 Includes `PaintedPoints`, `AttachedPoints`, `StaticPoints`, a compiled `PaintPointsTool`, cache/export helpers, and demo/benchmark menus.
 
@@ -36,7 +39,7 @@ Procedural scatter across support surfaces. Use it for broader coverage passes, 
 
 ### `gaffer_pointcloud_plus`
 
-Point-cloud generation and republish tools for scene-driven `PointsPrimitive` output. Use it to turn geometry into points, clean up incoming point branches, or prep simple point-cache handoffs.
+Point-cloud generation, cleanup, and output tools for scene-driven `PointsPrimitive` data. Use it to turn geometry into points, move incoming point data into cleaner scene branches, or prep simple point-cache handoffs.
 
 ## Repository Layout
 

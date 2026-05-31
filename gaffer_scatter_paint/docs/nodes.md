@@ -72,7 +72,7 @@ Current evaluated workflows covered by the node and its tests:
 What it does:
 
 - stores already-baked point data in a lightweight node-local payload
-- republishes that data at a chosen output location without re-running live attachment solve
+- outputs that data at a chosen location without re-running live attachment solve
 - supports authored bakes, evaluated bakes, and selection-only bakes produced from `PaintedPoints`
 - can store frame-sampled baked data for simple range playback
 

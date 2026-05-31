@@ -2,12 +2,12 @@
 
 `ScatterPlus` is the current scene-scatter plugin in this repository.
 
-It focuses on support-surface driven scattering, prototype selection, helper-point publishing, and instanced output that can be side-loaded into Gaffer as a standalone plugin.
+It focuses on support-surface driven scattering, prototype selection, helper-point output, and instanced output that can be side-loaded into Gaffer as a standalone plugin.
 
 ## Current plugin role
 
 - generate scatter points from support geometry
-- publish helper-point data under `<outputLocation>/points`
+- write helper-point data under `<outputLocation>/points`
 - build instanced output under `<outputLocation>/instances/*`
 - support prototype selection from a prototype scene
 - support image-driven density and luminance-based prototype workflows
@@ -34,7 +34,7 @@ The current output structure is intentionally split into two branches:
 1. helper points at `<outputLocation>/points`
 2. instances at `<outputLocation>/instances/*`
 
-The helper points are not just temporary internals. They publish scatter data that is useful for inspection, debugging, and downstream processing.
+The helper points are not just temporary internals. They expose scatter data that is useful for inspection, debugging, and downstream processing.
 
 Current helper-point data includes:
 
@@ -76,7 +76,7 @@ The startup integration currently registers:
 
 ## Current behavior
 
-`ScatterPlus` is a practical scatter workflow node for Gaffer. It keeps the support scene visible, publishes helper-point data, and adds instanced scatter output as a new subtree.
+`ScatterPlus` is a practical scatter workflow node for Gaffer. It keeps the support scene visible, outputs helper-point data, and adds instanced scatter output as a new subtree.
 
 The current node and tests cover:
 
@@ -85,7 +85,7 @@ The current node and tests cover:
 - image-driven density and luminance-based prototype workflows
 - support evaluation in `Object`, `World`, and `Reference` spaces
 - decimation controls and collision-related controls already present on the node
-- helper-point publishing and per-instance debug attributes used for inspection
+- helper-point output and per-instance debug attributes used for inspection
 
 ## Current boundaries
 

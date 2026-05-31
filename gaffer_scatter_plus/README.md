@@ -2,6 +2,8 @@
 
 Side-loadable Gaffer plugin for support-surface scatter workflows built around helper points, prototype instancing, and optional image input.
 
+Use Scatter Plus when you need broader distribution across support surfaces. Scatter from meshes, masks, image input, density attributes, and prototype libraries, then inspect generated helper points or create instanced output for downstream work.
+
 ## Current Scope
 
 `ScatterPlus` is the shipped node in this plugin.
