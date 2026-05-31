@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.3 - 2026-05-31
+
+### Changed
+
+- Refined the artist-facing README and plugin documentation copy.
+- Replaced tool-context publish terminology with output, bake, export, and handoff wording to avoid confusion with pipeline publishing.
+- Renamed the PointCloud Plus file demo menu copy from `File Republish` to `File Output`.
+
 ## 0.1.2 - 2026-05-30
 
 ### Added
