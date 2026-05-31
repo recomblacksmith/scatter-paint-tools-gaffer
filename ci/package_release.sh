@@ -6,6 +6,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_ROOT="$ROOT_DIR/dist/gaffer"
 VERSION_FILE="$ROOT_DIR/VERSION"
 GAFFER_VERSION="${GAFFER_VERSION:-1.6.18.0}"
+GAFFER_RUNTIME_DIR_NAME="${GAFFER_RUNTIME_DIR_NAME:-gaffer-${GAFFER_VERSION}-linux-gcc11}"
 TARGET_OS="${TARGET_OS:-linux}"
 
 if [[ ! -f "$VERSION_FILE" ]]; then
@@ -78,7 +79,7 @@ Example:
 
 ```bash
 export TOOL_ROOT="/path/to/__ARCHIVE_BASENAME__/scatter-paint-tools-gaffer"
-export GAFFER_ROOT="/path/to/gaffer-__GAFFER_VERSION__-linux-gcc11"
+export GAFFER_ROOT="/path/to/__GAFFER_RUNTIME_DIR_NAME__"
 
 export PYTHONPATH="\
 \$TOOL_ROOT/gaffer_scatter_paint/python:\
@@ -112,6 +113,7 @@ EOF
 sed -i \
   -e "s|__ARCHIVE_BASENAME__|$ARCHIVE_BASENAME|g" \
   -e "s|__GAFFER_VERSION__|$GAFFER_VERSION|g" \
+  -e "s|__GAFFER_RUNTIME_DIR_NAME__|$GAFFER_RUNTIME_DIR_NAME|g" \
   "$SETUP_GUIDE"
 
 printf 'Prepared release package staging at %s\n' "$PACKAGE_ROOT"

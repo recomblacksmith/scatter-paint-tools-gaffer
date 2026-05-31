@@ -4,6 +4,9 @@ param(
     [switch]$Tests,
     [string]$GafferVersion = $(if ($env:GAFFER_VERSION) { $env:GAFFER_VERSION } else { "1.6.18.0" }),
     [string]$GafferUrl = $env:GAFFER_URL,
+    [string]$GafferSha256 = $env:GAFFER_SHA256,
+    [string]$GafferArchiveName = $(if ($env:GAFFER_ARCHIVE_NAME) { $env:GAFFER_ARCHIVE_NAME } else { "gaffer-$GafferVersion-windows.zip" }),
+    [string]$GafferRuntimeDirName = $(if ($env:GAFFER_RUNTIME_DIR_NAME) { $env:GAFFER_RUNTIME_DIR_NAME } else { "gaffer-$GafferVersion-windows" }),
     [string]$GafferRoot = $env:GAFFER_ROOT,
     [string]$CacheRoot = $(if ($env:GAFFER_CACHE_ROOT) { $env:GAFFER_CACHE_ROOT } else { Join-Path $PSScriptRoot ".cache\gaffer" }),
     [int]$Jobs = $(if ($env:JOBS) { [int]$env:JOBS } else { [Environment]::ProcessorCount })
@@ -55,17 +58,23 @@ function Resolve-GafferRuntime {
         return $root.Path
     }
 
-    $archiveName = "gaffer-$GafferVersion-windows.zip"
-    $url = if ($GafferUrl) { $GafferUrl } else { "https://github.com/GafferHQ/gaffer/releases/download/$GafferVersion/$archiveName" }
-    $archivePath = Join-Path $CacheRoot $archiveName
+    $url = if ($GafferUrl) { $GafferUrl } else { "https://github.com/GafferHQ/gaffer/releases/download/$GafferVersion/$GafferArchiveName" }
+    $archivePath = Join-Path $CacheRoot $GafferArchiveName
     $extractRoot = Join-Path $CacheRoot $GafferVersion
-    $runtimeRoot = Join-Path $extractRoot "gaffer-$GafferVersion-windows"
+    $runtimeRoot = Join-Path $extractRoot $GafferRuntimeDirName
 
     New-Item -ItemType Directory -Force -Path $CacheRoot, $extractRoot | Out-Null
 
     if (-not (Test-Path $archivePath)) {
         Write-Host "Downloading $url"
         Invoke-WebRequest -Uri $url -OutFile $archivePath
+    }
+
+    if ($GafferSha256) {
+        $actualSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $archivePath).Hash.ToLowerInvariant()
+        if ($actualSha256 -ne $GafferSha256.ToLowerInvariant()) {
+            throw "SHA256 mismatch for $archivePath. Expected $GafferSha256, got $actualSha256."
+        }
     }
 
     $requiredRuntimeFiles = @(

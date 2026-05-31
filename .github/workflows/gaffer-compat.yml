@@ -1,0 +1,305 @@
+name: Gaffer Compatibility Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      gaffer_track:
+        description: Gaffer release track to build against
+        required: true
+        default: stable
+        type: choice
+        options:
+          - stable
+          - dev
+          - nightly
+          - custom
+      gaffer_version:
+        description: Custom Gaffer version or label
+        required: false
+        type: string
+      linux_url:
+        description: Custom Linux archive URL
+        required: false
+        type: string
+      linux_sha256:
+        description: Custom Linux archive SHA256
+        required: false
+        type: string
+      linux_runtime_dir:
+        description: Custom Linux extracted runtime directory
+        required: false
+        type: string
+      windows_url:
+        description: Custom Windows archive URL
+        required: false
+        type: string
+      windows_sha256:
+        description: Custom Windows archive SHA256
+        required: false
+        type: string
+      windows_runtime_dir:
+        description: Custom Windows extracted runtime directory
+        required: false
+        type: string
+      publish_release:
+        description: Publish a prerelease with the built archives
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  resolve-gaffer:
+    runs-on: ubuntu-latest
+    outputs:
+      gaffer_version: ${{ steps.resolve.outputs.gaffer_version }}
+      linux_url: ${{ steps.resolve.outputs.linux_url }}
+      linux_sha256: ${{ steps.resolve.outputs.linux_sha256 }}
+      linux_archive_name: ${{ steps.resolve.outputs.linux_archive_name }}
+      linux_runtime_dir: ${{ steps.resolve.outputs.linux_runtime_dir }}
+      windows_url: ${{ steps.resolve.outputs.windows_url }}
+      windows_sha256: ${{ steps.resolve.outputs.windows_sha256 }}
+      windows_archive_name: ${{ steps.resolve.outputs.windows_archive_name }}
+      windows_runtime_dir: ${{ steps.resolve.outputs.windows_runtime_dir }}
+      release_tag: ${{ steps.resolve.outputs.release_tag }}
+    steps:
+      - name: Resolve Gaffer release assets
+        id: resolve
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflowInputs = ${{ toJson(inputs) }};
+            const track = workflowInputs.gaffer_track;
+
+            function setOutput(name, value) {
+              core.setOutput(name, value || '');
+            }
+
+            function sha256(asset) {
+              return (asset.digest || '').replace(/^sha256:/, '');
+            }
+
+            function stripLinuxArchive(name) {
+              return name.replace(/\.tar\.gz$/, '');
+            }
+
+            function stripWindowsArchive(name) {
+              return name.replace(/\.zip$/, '');
+            }
+
+            function newestAsset(assets, predicate) {
+              return assets
+                .filter(predicate)
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+            }
+
+            let version;
+            let linuxAsset;
+            let windowsAsset;
+
+            if (track === 'custom') {
+              version = workflowInputs.gaffer_version;
+              const linuxUrl = workflowInputs.linux_url;
+              const windowsUrl = workflowInputs.windows_url;
+              const linuxRuntimeDir = workflowInputs.linux_runtime_dir;
+              const windowsRuntimeDir = workflowInputs.windows_runtime_dir;
+              const linuxSha256 = workflowInputs.linux_sha256;
+              const windowsSha256 = workflowInputs.windows_sha256;
+
+              if (!version || !linuxUrl || !windowsUrl || !linuxRuntimeDir || !windowsRuntimeDir || !linuxSha256) {
+                throw new Error('custom builds require gaffer_version, linux_url, linux_sha256, linux_runtime_dir, windows_url, and windows_runtime_dir');
+              }
+
+              const linuxArchiveName = linuxUrl.split('/').pop();
+              const windowsArchiveName = windowsUrl.split('/').pop();
+
+              setOutput('gaffer_version', version);
+              setOutput('linux_url', linuxUrl);
+              setOutput('linux_sha256', linuxSha256);
+              setOutput('linux_archive_name', linuxArchiveName);
+              setOutput('linux_runtime_dir', linuxRuntimeDir);
+              setOutput('windows_url', windowsUrl);
+              setOutput('windows_sha256', windowsSha256);
+              setOutput('windows_archive_name', windowsArchiveName);
+              setOutput('windows_runtime_dir', windowsRuntimeDir);
+              setOutput('release_tag', `gaffer-${version}`);
+              return;
+            }
+
+            const releases = await github.paginate(github.rest.repos.listReleases, {
+              owner: 'GafferHQ',
+              repo: 'gaffer',
+              per_page: 100,
+            });
+
+            let release;
+            if (track === 'stable') {
+              release = releases.find((candidate) => !candidate.draft && !candidate.prerelease);
+            } else if (track === 'dev') {
+              release = releases.find((candidate) => !candidate.draft && candidate.prerelease && /^1\.7\./.test(candidate.tag_name));
+            } else if (track === 'nightly') {
+              release = releases.find((candidate) => !candidate.draft && candidate.tag_name === 'nightly');
+            } else {
+              throw new Error(`Unsupported track: ${track}`);
+            }
+
+            if (!release) {
+              throw new Error(`Unable to find a Gaffer release for track ${track}`);
+            }
+
+            if (track === 'nightly') {
+              linuxAsset = newestAsset(release.assets, (asset) => /linux\.tar\.gz$/.test(asset.name));
+              windowsAsset = newestAsset(release.assets, (asset) => /windows\.zip$/.test(asset.name));
+              if (!linuxAsset || !windowsAsset) {
+                throw new Error('Unable to find latest nightly Linux and Windows assets');
+              }
+              const match = linuxAsset.name.match(/^gaffer-(nightly-[^-]+-[^-]+)-linux\.tar\.gz$/);
+              version = match ? match[1] : stripLinuxArchive(linuxAsset.name).replace(/^gaffer-/, '');
+            } else {
+              version = release.tag_name;
+              linuxAsset = newestAsset(release.assets, (asset) => asset.name === `gaffer-${version}-linux-gcc11.tar.gz` || asset.name === `gaffer-${version}-linux.tar.gz`);
+              windowsAsset = newestAsset(release.assets, (asset) => asset.name === `gaffer-${version}-windows.zip`);
+              if (!linuxAsset || !windowsAsset) {
+                throw new Error(`Unable to find Linux and Windows assets for Gaffer ${version}`);
+              }
+            }
+
+            setOutput('gaffer_version', version);
+            setOutput('linux_url', linuxAsset.browser_download_url);
+            setOutput('linux_sha256', sha256(linuxAsset));
+            setOutput('linux_archive_name', linuxAsset.name);
+            setOutput('linux_runtime_dir', stripLinuxArchive(linuxAsset.name));
+            setOutput('windows_url', windowsAsset.browser_download_url);
+            setOutput('windows_sha256', sha256(windowsAsset));
+            setOutput('windows_archive_name', windowsAsset.name);
+            setOutput('windows_runtime_dir', stripWindowsArchive(windowsAsset.name));
+            setOutput('release_tag', `gaffer-${version}`);
+
+            await core.summary
+              .addHeading(`Resolved Gaffer ${version}`)
+              .addTable([
+                [{ data: 'Platform', header: true }, { data: 'Archive', header: true }, { data: 'Runtime Directory', header: true }, { data: 'SHA256', header: true }],
+                ['Linux', linuxAsset.name, stripLinuxArchive(linuxAsset.name), sha256(linuxAsset) || '(missing)'],
+                ['Windows', windowsAsset.name, stripWindowsArchive(windowsAsset.name), sha256(windowsAsset) || '(missing)'],
+              ])
+              .write();
+
+  build-linux:
+    needs: resolve-gaffer
+    runs-on: [self-hosted, linux]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Prepare runner workspace
+        run: |
+          if [ -d "$GITHUB_WORKSPACE" ]; then
+            docker run --rm \
+              -v "$GITHUB_WORKSPACE":/workspace \
+              alpine:3.20 \
+              sh -lc "chown -R $(id -u):$(id -g) /workspace || true; rm -rf /workspace/dist"
+          fi
+      - uses: actions/checkout@v4
+      - name: Show resolved Linux runtime
+        run: |
+          printf 'Gaffer version: %s\n' '${{ needs.resolve-gaffer.outputs.gaffer_version }}'
+          printf 'Linux archive:  %s\n' '${{ needs.resolve-gaffer.outputs.linux_archive_name }}'
+          printf 'Runtime dir:    %s\n' '${{ needs.resolve-gaffer.outputs.linux_runtime_dir }}'
+          printf 'Download URL:   %s\n' '${{ needs.resolve-gaffer.outputs.linux_url }}'
+      - name: Build Linux toolset
+        env:
+          IMAGE_NAME: d3smond/scatter-paint-tools-gaffer-build:gaffer-1.6.18.0
+          GAFFER_VERSION: ${{ needs.resolve-gaffer.outputs.gaffer_version }}
+          GAFFER_URL: ${{ needs.resolve-gaffer.outputs.linux_url }}
+          GAFFER_SHA256: ${{ needs.resolve-gaffer.outputs.linux_sha256 }}
+          GAFFER_ARCHIVE_NAME: ${{ needs.resolve-gaffer.outputs.linux_archive_name }}
+          GAFFER_RUNTIME_DIR_NAME: ${{ needs.resolve-gaffer.outputs.linux_runtime_dir }}
+        run: ./build-plugins.sh --plugin all --pull
+      - name: Prepare Linux package
+        env:
+          TARGET_OS: linux
+          GAFFER_VERSION: ${{ needs.resolve-gaffer.outputs.gaffer_version }}
+          GAFFER_RUNTIME_DIR_NAME: ${{ needs.resolve-gaffer.outputs.linux_runtime_dir }}
+        run: ./ci/package_release.sh
+      - name: Archive Linux package
+        run: |
+          archive="scatter-paint-tools-gaffer-v$(tr -d '[:space:]' < VERSION)-linux-gaffer-${{ needs.resolve-gaffer.outputs.gaffer_version }}.tar.gz"
+          root="scatter-paint-tools-gaffer-v$(tr -d '[:space:]' < VERSION)-linux-gaffer-${{ needs.resolve-gaffer.outputs.gaffer_version }}"
+          tar -czf "$archive" -C dist/release "$root"
+      - name: Upload Linux package
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-gaffer-${{ needs.resolve-gaffer.outputs.gaffer_version }}
+          path: scatter-paint-tools-gaffer-*-linux-gaffer-*.tar.gz
+          if-no-files-found: error
+
+  build-windows:
+    needs: resolve-gaffer
+    runs-on: [self-hosted, Windows, X64]
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: true
+      - name: Show resolved Windows runtime
+        run: |
+          Write-Host "Gaffer version: ${{ needs.resolve-gaffer.outputs.gaffer_version }}"
+          Write-Host "Windows archive: ${{ needs.resolve-gaffer.outputs.windows_archive_name }}"
+          Write-Host "Runtime dir: ${{ needs.resolve-gaffer.outputs.windows_runtime_dir }}"
+          Write-Host "Download URL: ${{ needs.resolve-gaffer.outputs.windows_url }}"
+      - name: Install SCons
+        run: py -m pip install --user scons
+      - name: Build Windows toolset
+        env:
+          GAFFER_VERSION: ${{ needs.resolve-gaffer.outputs.gaffer_version }}
+          GAFFER_URL: ${{ needs.resolve-gaffer.outputs.windows_url }}
+          GAFFER_SHA256: ${{ needs.resolve-gaffer.outputs.windows_sha256 }}
+          GAFFER_ARCHIVE_NAME: ${{ needs.resolve-gaffer.outputs.windows_archive_name }}
+          GAFFER_RUNTIME_DIR_NAME: ${{ needs.resolve-gaffer.outputs.windows_runtime_dir }}
+          GAFFER_CACHE_ROOT: 'T:\github-runner-cache\scatter-paint-tools-gaffer\gaffer'
+        run: .\build-plugins.ps1 -Plugin all
+      - name: Prepare Windows package
+        env:
+          GAFFER_VERSION: ${{ needs.resolve-gaffer.outputs.gaffer_version }}
+          GAFFER_RUNTIME_DIR_NAME: ${{ needs.resolve-gaffer.outputs.windows_runtime_dir }}
+        run: .\ci\package_release.ps1
+      - name: Archive Windows package
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          $root = "scatter-paint-tools-gaffer-v$version-windows-gaffer-${{ needs.resolve-gaffer.outputs.gaffer_version }}"
+          $archive = "scatter-paint-tools-gaffer-v$version-windows-gaffer-${{ needs.resolve-gaffer.outputs.gaffer_version }}.zip"
+          Compress-Archive -LiteralPath "dist\release\$root" -DestinationPath $archive -Force
+      - name: Upload Windows package
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-gaffer-${{ needs.resolve-gaffer.outputs.gaffer_version }}
+          path: scatter-paint-tools-gaffer-*-windows-gaffer-*.zip
+          if-no-files-found: error
+
+  publish:
+    if: ${{ inputs.publish_release }}
+    needs:
+      - resolve-gaffer
+      - build-linux
+      - build-windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+      - name: Publish compatibility prerelease
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.resolve-gaffer.outputs.release_tag }}
+          name: Scatter Paint Tools for Gaffer ${{ needs.resolve-gaffer.outputs.gaffer_version }}
+          prerelease: true
+          files: release-artifacts/**/*
+          body: |
+            Compatibility build for Gaffer ${{ needs.resolve-gaffer.outputs.gaffer_version }}.
+
+            Built from this repository revision against upstream Gaffer runtime assets.

@@ -1,5 +1,6 @@
 param(
     [string]$GafferVersion = $(if ($env:GAFFER_VERSION) { $env:GAFFER_VERSION } else { "1.6.18.0" }),
+    [string]$GafferRuntimeDirName = $(if ($env:GAFFER_RUNTIME_DIR_NAME) { $env:GAFFER_RUNTIME_DIR_NAME } else { "gaffer-$GafferVersion-windows" }),
     [string]$TargetOS = $(if ($env:TARGET_OS) { $env:TARGET_OS } else { "windows" })
 )
 
@@ -76,7 +77,7 @@ Example PowerShell launch setup:
 
 ````powershell
 `$TOOL_ROOT = "C:\path\to\$archiveBaseName\scatter-paint-tools-gaffer"
-`$GAFFER_ROOT = "C:\path\to\gaffer-$GafferVersion-windows"
+`$GAFFER_ROOT = "C:\path\to\$GafferRuntimeDirName"
 
 `$env:PYTHONNOUSERSITE = "1"
 `$env:IECORE_FONT_PATHS = "`$GAFFER_ROOT\fonts"
