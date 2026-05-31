@@ -8,7 +8,7 @@ order: 4
 
 PointCloud Plus is the point-cloud utility plugin in the set.
 
-Use it when you want to generate points from geometry, republish points cleanly, or remap point playback.
+Use it when you want to generate points from geometry, move point data into cleaner scene branches, or remap point playback.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/xRk4YGDx5qg?si=-JeBF1N0x-IHuqEQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -17,7 +17,7 @@ Use it when you want to generate points from geometry, republish points cleanly,
 
 - creates random points on surfaces
 - creates one point per primitive center when that is the better fit
-- republishes incoming point clouds into a cleaner scene location
+- outputs incoming point clouds into a cleaner scene location
 - remaps playback timing for file-style point caches
 - keeps the rest of the source scene intact while adding the point output
 
@@ -25,7 +25,7 @@ Typical examples:
 
 - turning a mesh into points for downstream scatter
 - rebuilding a point branch into a cleaner location in the scene
-- republishing points before handing them to lighting or FX
+- preparing points before handing them to lighting or FX
 - quick point prep without a big graph rewrite
 
 ## What You See In Gaffer
@@ -34,7 +34,7 @@ Typical examples:
 - `/PointCloudPlus/Nodes/PointCloud Plus`
 - `/PointCloudPlus/Demos/Geometry Basic`
 - `/PointCloudPlus/Demos/Primitive Center`
-- `/PointCloudPlus/Demos/File Republish`
+- `/PointCloudPlus/Demos/File Output`
 - `/Tools/PointCloud Plus/...`
 
 ## Notes

@@ -8,15 +8,19 @@ permalink: /
 
 # Scatter Paint Tools for Gaffer
 
-These plugins are for artists and TDs who want better scatter control inside Gaffer.
+Paint, scatter, attach, and bake points directly inside Gaffer.
+
+Paint hero detail. Fill broad areas procedurally. Bake clean outputs for the next step.
+
+Scatter Paint Tools is a side-loadable Gaffer plugin set for artists and TDs who need shot-level control over surface detail, procedural dressing, and point-cloud prep inside Gaffer.
 
 Use this set when you want to:
 
-- paint points by hand in the viewer
-- stick painted points back onto geo
-- freeze a painted result for downstream work
-- scatter things procedurally from meshes, masks, and attrs
-- make or clean up point clouds for layout, dressing, or FX handoff
+- paint rocks, grass, leaves, bolts, debris, set dressing, or other shot detail directly in the viewer
+- keep painted points attached to animated or changing surfaces
+- use layers, strokes, selections, visibility, mute, solo, timing, and color overrides to manage art direction
+- scatter points or instances procedurally from meshes, masks, attributes, and images
+- generate, clean up, and output point clouds for layout, dressing, lighting, or FX handoff
 
 On this site you can quickly find:
 
@@ -70,12 +74,12 @@ Good for:
 
 ### PointCloud Plus
 
-Make point clouds from geometry, or clean up and republish incoming points.
+Make point clouds from geometry, or move incoming point data into cleaner scene branches.
 
 Good for:
 
 - turning surfaces into points
-- republishing points into a cleaner scene branch
+- outputting points into a cleaner scene branch
 - simple point-cache prep for downstream work
 
 ## Getting Started

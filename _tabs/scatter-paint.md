@@ -8,14 +8,14 @@ order: 2
 
 Scatter Paint is the hand-placed scatter plugin in this set.
 
-Use it when you want an artist-driven result instead of letting a setup spray everywhere.
+Use it when a shot needs specific placement: grass touch-up, rocks, leaves, bolts, debris, footprints, dressing fixes, or any detail that needs an artist's eye.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/R47paQI2cdY?si=AWoMOpYbvQ6hVp1D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## What It Gives You
 
 - `PaintedPoints` to store painted scatter data
-- `AttachedPoints` to stick those points back onto geometry
+- `AttachedPoints` to keep those points attached to geometry
 - `StaticPoints` to bake a final result
 - `PaintPointsTool` for interactive painting in the viewer
 

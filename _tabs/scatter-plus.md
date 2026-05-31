@@ -8,7 +8,7 @@ order: 3
 
 Scatter Plus is the procedural scatter plugin in the set.
 
-Use it when you want to spread instances across a support surface without painting them by hand.
+Use it when you need broader distribution across support surfaces. Scatter from meshes, masks, image input, density attributes, and prototype libraries, then inspect generated helper points or create instanced output for downstream work.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/DwC-xjKSDZI?si=eQXtcwB6WoHPebiE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 

@@ -4,10 +4,9 @@ lang: en
 timezone: UTC
 
 title: Scatter Paint Tools for Gaffer
-tagline: Artist-friendly scatter painting and point tools for Gaffer
+tagline: Paint, scatter, attach, and bake points directly inside Gaffer
 description: >-
-  Simple docs, install help, and release notes for the Scatter Paint Tools for Gaffer
-  plugin set.
+  Artist-facing docs, install help, and release notes for Scatter Paint Tools for Gaffer.
 
 url: "https://recomblacksmith.github.io"
 baseurl: "/scatter-paint-tools-gaffer"
