@@ -1,6 +1,8 @@
 # Gaffer PointCloud Plus
 
-Side-loadable Gaffer plugin for point-cloud generation and republish workflows.
+Side-loadable Gaffer plugin for point-cloud generation, cleanup, and output workflows.
+
+Use PointCloud Plus to create clean `PointsPrimitive` output from scene geometry, generate primitive-center points, or move incoming point data into cleaner scene branches with simple playback controls. It is built for practical point handoffs into layout, lighting, FX, and cache-driven workflows.
 
 ## Current Scope
 
@@ -10,7 +12,7 @@ Current workflows include:
 
 - random surface point generation
 - primitive-center point generation
-- republish of an upstream `PointsPrimitive`
+- output of upstream `PointsPrimitive` data
 - file-style playback remapping through `frame`, `frameOffset`, and `animationBehavior`
 - injecting point output at a chosen location while preserving the surrounding source scene
 
@@ -20,7 +22,7 @@ Startup currently registers:
 - `/PointCloudPlus/Nodes/PointCloud Plus`
 - `/PointCloudPlus/Demos/Geometry Basic`
 - `/PointCloudPlus/Demos/Primitive Center`
-- `/PointCloudPlus/Demos/File Republish`
+- `/PointCloudPlus/Demos/File Output`
 - `/Tools/PointCloud Plus/...`
 
 ## Build
@@ -69,7 +71,7 @@ The startup menus currently expose three focused demo builders:
 
 - `Geometry Basic`
 - `Primitive Center`
-- `File Republish`
+- `File Output`
 
 Those demo graphs wrap the output with `GafferScene.OpenGLAttributes` so the emitted points preview cleanly in `SceneView`.
 
@@ -86,7 +88,7 @@ GAFFER_STARTUP_PATHS="/home/des/_git/scatter-paint-tools-gaffer/dist/gaffer/star
 "/home/des/Downloads/gaffer-1.6.18.0-linux-gcc11/bin/python" -m unittest GafferPointCloudPlusTest
 ```
 
-The current test coverage exercises geometry mode, primitive-center mode, file republish mode, auto-discovery of input point locations, playback remapping, intermediate branch creation, preserved ancestor transforms and attributes, and demo action wiring.
+The current test coverage exercises geometry mode, primitive-center mode, file-output mode, auto-discovery of input point locations, playback remapping, intermediate branch creation, preserved ancestor transforms and attributes, and demo action wiring.
 
 ## Design Notes
 

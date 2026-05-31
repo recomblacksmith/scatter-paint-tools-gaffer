@@ -30,7 +30,7 @@ if GafferScatterPlus.ScatterPlus is not None:
             "pointType": ["description", "Helper point type written to the points branch.", "layout:section", "Output"],
             "support": ["description", "Filter used to find support geometry for sampling.", "layout:section", "Support"],
             "image": ["description", "Optional density or prototype-selection image input.", "layout:section", "Support"],
-            "densityPrimitiveVariable": ["description", "Support primitive variable sampled for density/decimation and republished on helper points using this name.", "layout:section", "Support"],
+            "densityPrimitiveVariable": ["description", "Support primitive variable sampled for density/decimation and written to helper points using this name.", "layout:section", "Support"],
             "referencePosition": ["description", "Name used for generated reference-position points primvar, populated from the support reference frame when available.", "layout:section", "Support"],
             "uv": ["description", "Support UV primitive variable used for image-driven scatter.", "layout:section", "Support"],
             "distribution": [
@@ -59,7 +59,7 @@ if GafferScatterPlus.ScatterPlus is not None:
                 "layout:section", "Prototypes",
             ],
             "prototypeIndex": ["description", "Fixed prototype index used by Index mode.", "layout:section", "Prototypes", "layout:activator", "isIndexPrototypeMode"],
-            "idVariable": ["description", "Support primitive variable name sampled for ID-driven prototype selection and republished on helper points.", "layout:section", "Prototypes"],
+            "idVariable": ["description", "Support primitive variable name sampled for ID-driven prototype selection and written to helper points.", "layout:section", "Prototypes"],
             "geometryIdAttribute": ["description", "Prototype attribute name used to resolve geometry IDs.", "layout:section", "Prototypes"],
             "probabilityAttribute": ["description", "Prototype attribute name used for weighted random assignment.", "layout:section", "Prototypes"],
             "position": ["description", "Base position offset applied to each instance.", "layout:section", "Transform"],

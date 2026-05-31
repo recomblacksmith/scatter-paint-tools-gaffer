@@ -2,6 +2,8 @@
 
 Side-loadable Gaffer plugin for authored surface scatter painting in Gaffer.
 
+Use Scatter Paint when a shot needs specific placement: grass touch-up, rocks, leaves, bolts, debris, footprints, dressing fixes, or any detail that needs an artist's eye. Paint in the viewer, organize strokes into layers, keep points attached to geometry, and bake stable outputs when the setup is ready to hand off.
+
 ## Current Scope
 
 This plugin currently ships:

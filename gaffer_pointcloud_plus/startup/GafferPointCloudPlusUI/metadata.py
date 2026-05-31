@@ -14,7 +14,7 @@ if GafferPointCloudPlus.PointCloudPlus is not None:
     Gaffer.Metadata.registerNode(
         GafferPointCloudPlus.PointCloudPlus,
         "description",
-        "Wrapper node for point-cloud generation and republish workflows.",
+        "Wrapper node for point-cloud generation, cleanup, and output workflows.",
         "documentation:url",
         lambda node: _documentation_url("PointCloudPlus.html"),
         "layout:activator:isGeometryMode",
@@ -26,7 +26,7 @@ if GafferPointCloudPlus.PointCloudPlus is not None:
         plugs={
             "outputLocation": [
                 "description",
-                "Scene location where the generated or republished points object will be emitted.",
+                "Scene location where the generated or copied points object will be emitted.",
                 "layout:section",
                 "Output",
             ],
@@ -38,7 +38,7 @@ if GafferPointCloudPlus.PointCloudPlus is not None:
             ],
             "mode": [
                 "description",
-                "Selects whether PointCloudPlus generates points from geometry or republishes an existing input points object.",
+                "Selects whether PointCloudPlus generates points from geometry or copies an existing input points object.",
                 "preset:Geometry",
                 0,
                 "preset:File",
@@ -112,7 +112,7 @@ if GafferPointCloudPlus.PointCloudPlus is not None:
             ],
             "primPath": [
                 "description",
-                "Path to the existing input points object that should be republished in File mode.",
+                "Path to the existing input points object that should be copied in File mode.",
                 "layout:section",
                 "File",
                 "layout:activator",
@@ -144,7 +144,7 @@ if GafferPointCloudPlus.PointCloudPlus is not None:
             ],
             "frameOffset": [
                 "description",
-                "Additional offset applied to the republished input scene evaluation frame in File mode.",
+                "Additional offset applied to the copied input scene evaluation frame in File mode.",
                 "layout:section",
                 "File",
                 "layout:activator",
