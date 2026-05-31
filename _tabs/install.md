@@ -15,7 +15,7 @@ If you are just trying to use the tools, download the release package. You do no
 Latest Linux release file:
 
 ```text
-scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0.tar.gz
+scatter-paint-tools-gaffer-v0.1.3-linux-gaffer-1.6.18.0.tar.gz
 ```
 
 Download it from:
@@ -25,7 +25,7 @@ Download it from:
 After you unpack it, you should have a folder like this:
 
 ```text
-scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0/
+scatter-paint-tools-gaffer-v0.1.3-linux-gaffer-1.6.18.0/
   how-to-setup.md
   scatter-paint-tools-gaffer/
 ```

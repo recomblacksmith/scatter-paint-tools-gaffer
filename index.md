@@ -38,7 +38,7 @@ If you just want the latest Linux package, start here:
 Current release file:
 
 ```text
-scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0.tar.gz
+scatter-paint-tools-gaffer-v0.1.3-linux-gaffer-1.6.18.0.tar.gz
 ```
 
 That archive contains all three plugins together:

@@ -15,7 +15,7 @@ You do not need three separate downloads.
 The current Linux release is:
 
 ```text
-scatter-paint-tools-gaffer-v0.1.0-linux-gaffer-1.6.18.0.tar.gz
+scatter-paint-tools-gaffer-v0.1.3-linux-gaffer-1.6.18.0.tar.gz
 ```
 
 Inside it, you get:
@@ -40,8 +40,8 @@ That makes it easier to drop the whole set into a shared tools area for a show o
 
 ## Version Notes
 
-- version tag: `v0.1.0`
-- release title: `Scatter Paint Tools for Gaffer v0.1.0`
+- version tag: `v0.1.3`
+- release title: `Scatter Paint Tools for Gaffer v0.1.3`
 - archive root matches the release filename, so it is easier to drop into a shot or tools area without renaming
 
 For the actual setup steps, head to the `Install` page.
