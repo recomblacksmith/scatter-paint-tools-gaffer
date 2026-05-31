@@ -4,14 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       gaffer_track:
-        description: Gaffer release track to build against
+        description: Gaffer 1.6 release track to build against
         required: true
         default: stable
         type: choice
         options:
           - stable
-          - dev
-          - nightly
           - custom
       gaffer_version:
         description: Custom Gaffer version or label
@@ -111,6 +109,9 @@ jobs:
               if (!version || !linuxUrl || !windowsUrl || !linuxRuntimeDir || !windowsRuntimeDir || !linuxSha256) {
                 throw new Error('custom builds require gaffer_version, linux_url, linux_sha256, linux_runtime_dir, windows_url, and windows_runtime_dir');
               }
+              if (!/^1\.6\./.test(version)) {
+                throw new Error(`main only builds Gaffer 1.6 compatibility packages. Got ${version}; use the gaffer-1.7 branch for 1.7/dev/nightly work.`);
+              }
 
               const linuxArchiveName = linuxUrl.split('/').pop();
               const windowsArchiveName = windowsUrl.split('/').pop();
@@ -137,10 +138,6 @@ jobs:
             let release;
             if (track === 'stable') {
               release = releases.find((candidate) => !candidate.draft && !candidate.prerelease);
-            } else if (track === 'dev') {
-              release = releases.find((candidate) => !candidate.draft && candidate.prerelease && /^1\.7\./.test(candidate.tag_name));
-            } else if (track === 'nightly') {
-              release = releases.find((candidate) => !candidate.draft && candidate.tag_name === 'nightly');
             } else {
               throw new Error(`Unsupported track: ${track}`);
             }
@@ -149,21 +146,14 @@ jobs:
               throw new Error(`Unable to find a Gaffer release for track ${track}`);
             }
 
-            if (track === 'nightly') {
-              linuxAsset = newestAsset(release.assets, (asset) => /linux\.tar\.gz$/.test(asset.name));
-              windowsAsset = newestAsset(release.assets, (asset) => /windows\.zip$/.test(asset.name));
-              if (!linuxAsset || !windowsAsset) {
-                throw new Error('Unable to find latest nightly Linux and Windows assets');
-              }
-              const match = linuxAsset.name.match(/^gaffer-(nightly-[^-]+-[^-]+)-linux\.tar\.gz$/);
-              version = match ? match[1] : stripLinuxArchive(linuxAsset.name).replace(/^gaffer-/, '');
-            } else {
-              version = release.tag_name;
-              linuxAsset = newestAsset(release.assets, (asset) => asset.name === `gaffer-${version}-linux-gcc11.tar.gz` || asset.name === `gaffer-${version}-linux.tar.gz`);
-              windowsAsset = newestAsset(release.assets, (asset) => asset.name === `gaffer-${version}-windows.zip`);
-              if (!linuxAsset || !windowsAsset) {
-                throw new Error(`Unable to find Linux and Windows assets for Gaffer ${version}`);
-              }
+            version = release.tag_name;
+            if (!/^1\.6\./.test(version)) {
+              throw new Error(`main only builds Gaffer 1.6 compatibility packages. Resolved ${version}; use the gaffer-1.7 branch for 1.7/dev/nightly work.`);
+            }
+            linuxAsset = newestAsset(release.assets, (asset) => asset.name === `gaffer-${version}-linux-gcc11.tar.gz`);
+            windowsAsset = newestAsset(release.assets, (asset) => asset.name === `gaffer-${version}-windows.zip`);
+            if (!linuxAsset || !windowsAsset) {
+              throw new Error(`Unable to find Linux and Windows 1.6 assets for Gaffer ${version}`);
             }
 
             setOutput('gaffer_version', version);
