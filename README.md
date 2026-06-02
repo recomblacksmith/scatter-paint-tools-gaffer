@@ -111,7 +111,6 @@ Windows local build:
 .\build-plugins.ps1 -Plugin all
 ```
 
-The Windows GitHub Actions workflow expects a local self-hosted runner with the default `self-hosted`, `Windows`, and `X64` labels. The machine must have Visual Studio 2022 C++ build tools, Python launcher `py`, network access to download the pinned Gaffer Windows zip, and permission to write `T:\github-runner-cache\scatter-paint-tools-gaffer\gaffer`.
 
 ## Developer Documentation
 
